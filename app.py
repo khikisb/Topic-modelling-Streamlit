@@ -24,7 +24,6 @@ with lda:
 
    def submit():
         tf = pd.read_csv("df_tf.csv")
-        tf
         lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
         lda_top = lda.fit_transform(tf)
         # Bobot setiap topik terhadap dokumen
@@ -40,9 +39,8 @@ with Model:
     st.subheader("Jumlah Topik yang Anda Gunakan : " + str(topik))
     st.write("Jika pada menu LDA tidak menentukan jumlah topiknya maka proses modelling akan di default dengan jumlah topik = 1")
     lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
-    x = tf.drop(columns="Label")
-    lda_top = lda.fit_transform(x)
-    y = tf.Label
+    lda_top = lda.fit_transform(tf)
+    y = data.Label
     X_train, X_test, y_train, y_test = train_test_split(lda_top, y, test_size=0.2, random_state=42)
     
     metode1 = KNeighborsClassifier(n_neighbors=3)
