@@ -29,9 +29,9 @@ with Data :
    
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
+   tf = pd.read_csv('TF_label.csv')
 
    def submit():
-        tf = pd.read_csv('TF_label.csv')
         lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1,random_state=42,max_iter=1)
         x=tf.drop('Label', axis=1)
         lda_top=lda.fit_transform(x)
