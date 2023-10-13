@@ -133,10 +133,8 @@ with Implementasi:
         preprocessed_abstract = preprocess_text(user_abstract)
 
         if lda_model is None:
-            # Jika model LDA belum ada, latih model LDA dengan data Anda
-            tf = pd.read_csv("df_tf.csv")
             lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
-            lda_top = lda_model.fit_transform(tf)
+            lda_top = lda_model.fit_transform(user_abstract)
             st.write("Model LDA telah dilatih.")
 
         # Fit vocabulary dengan data latih
