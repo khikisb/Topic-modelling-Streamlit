@@ -95,6 +95,7 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
+   import nltk
    from sklearn.feature_extraction.text import CountVectorizer
    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
    from nltk.tokenize import word_tokenize
