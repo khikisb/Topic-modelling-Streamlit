@@ -28,42 +28,29 @@ with Data :
    data
 
 with Ekstraksi :
-   url_tf='https://drive.google.com/file/d/1bmViR9avCJYNdVjgrKCKS7vl2AOu6W8A/view?usp=sharing'
-   url_log_tf='https://drive.google.com/file/d/1-0mBse0FBN9bLUZU8cG4iMpLDW2HolS7/view?usp=sharing'
-   url_oht='https://drive.google.com/file/d/1-4qqy-4kBvZ_k_BBxTetiZrA0Aj8zIyX/view?usp=sharing'
-   url_tf_idf='https://drive.google.com/file/d/1-5bke07KeJ3oiF5Mt0jicQVFgVBRSHUq/view?usp=sharing'
-   file_id1=url_tf.split('/')[-2]
-   file_id2=url_log_tf.split('/')[-2]
-   file_id3=url_oht.split('/')[-2]
-   file_id4=url_tf_idf.split('/')[-2]
-
    st.subheader('Term Frequency (TF)')
-   dwn_url1='https://drive.google.com/uc?id=' + file_id1
-   tf = pd.read_csv(dwn_url1)
-   tf
+   df_tf = pd.read_excel('df_tf.xlsx')
+   df_tf
    
    st.subheader('Logarithm Frequency (Log-TF)')
-   dwn_url2='https://drive.google.com/uc?id=' + file_id2
-   log_tf = pd.read_csv(dwn_url2)
-   log_tf
+   df_log = pd.read_csv('df_log.xlsx')
+   df_log
    
-   st.subheader('One Hot Encoder / Binary')
-   dwn_url3='https://drive.google.com/uc?id=' + file_id3
-   oht = pd.read_csv(dwn_url3)
-   oht
+   st.subheader('Binary Frequency')
+   binary_data = pd.read_csv('binary_data.xlsx')
+   binary_data
    
    st.subheader('TF-IDF')
-   dwn_url4='https://drive.google.com/uc?id=' + file_id4
-   tf_idf = pd.read_csv(dwn_url4)
-   tf_idf
+   df_tf_idf = pd.read_csv('df_tf_idf.xlsx')
+   df_tf_idf
 
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
 
    def submit():
         lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1,random_state=42,max_iter=1)
-        x=tf.drop('Label', axis=1)
-        lda_top=lda.fit_transform(x)
+        x = df_tf.drop('Label', axis=1)
+        lda_top = lda.fit_transform(x)
         #bobot setiap topik terhadap dokumen
         nama_clm =[]
         for i in range(topik):
@@ -81,9 +68,9 @@ with Model :
         st.subheader('Jumlah Topik yang Anda Gunakan : ' +str(topik))
         st.write ("Jika pada menu LDA tidak menentukan jumlah topiknya maka proses modelling akan di default dengan jumlah topik = 1")
         lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1,random_state=42,max_iter=1)
-        x=tf.drop(columns='Label')
-        lda_top=lda.fit_transform(x)
-        y = tf.Label
+        x = df_tf.drop(columns='Label')
+        lda_top = lda.fit_transform(x)
+        y = df_tf.Label
         X_train,X_test,y_train,y_test = train_test_split(lda_top,y,test_size=0.2,random_state=42)
         
         metode1 = KNeighborsClassifier(n_neighbors=3)
