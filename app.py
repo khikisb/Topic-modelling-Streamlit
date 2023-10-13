@@ -16,7 +16,7 @@ with Data:
    st.write("Dimana Fitur yang ada di dalam data tersebut diantaranya:")
    st.text("1) Judul\n2) Penulis\n3) Dosen Pembimbing 1\n4) Dosen Pembinbing 2\n5) Abstrak\n6) Label")
    st.subheader("Data")
-   data = pd.read_csv("DF_PTA_.csv")
+   data = pd.read_csv("DF_PTA.csv")
    st.write(data)
 
 with lda:
