@@ -95,6 +95,12 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
+   from sklearn.feature_extraction.text import CountVectorizer
+   from sklearn.neighbors import KNeighborsClassifier
+   from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+   from nltk.tokenize import word_tokenize
+   from nltk.stem import PorterStemmer
+   import string  
       # Preprocessing function
    def preprocess_text(text):
        # Menghilangkan tanda baca
