@@ -95,29 +95,19 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-   import nltk
    from sklearn.feature_extraction.text import CountVectorizer
    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
-   from nltk.tokenize import word_tokenize
-   from nltk.stem import PorterStemmer
-   import string  
-      # Preprocessing function
+   import string
+   
+   # Preprocessing function
    def preprocess_text(text):
        # Menghilangkan tanda baca
        text = text.translate(str.maketrans('', '', string.punctuation))
-   
-       # Tokenisasi
-       tokens = word_tokenize(text)
-   
+       
        # Stopwords removal
-       tokens = [word for word in tokens if word.lower() not in ENGLISH_STOP_WORDS]
-   
-       # Stemming (opsional)
-       # Stemmer untuk mengubah kata-kata menjadi bentuk dasar
-       stemmer = PorterStemmer()
-       tokens = [stemmer.stem(word) for word in tokens]
-   
-       return " ".join(tokens)
+       text = ' '.join([word for word in text.lower().split() if word not in ENGLISH_STOP_WORDS])
+       
+       return text
    
    st.write("Masukkan Abstrak yang Ingin Diprediksi:")
    user_input = st.text_input("Abstrak:")
@@ -128,12 +118,12 @@ with Implementasi:
    
        # Contoh data training (menggunakan df)
        # Misalkan df memiliki dua kolom: "Abstrak" dan "Label"
-       training_data = df.drop(columns=['Label']).values
+       training_data = df.drop(columns=['Label'])['Abstrak']
        labels = df["Label"]
    
        # Menggunakan CountVectorizer
        vectorizer = CountVectorizer()
-       X = vectorizer.fit_transform([user_input_preprocessed] + training_data)
+       X = vectorizer.fit_transform([user_input_preprocessed] + list(training_data))
    
        # Inisialisasi model KNN
        knn = KNeighborsClassifier(n_neighbors=5)
@@ -142,5 +132,6 @@ with Implementasi:
        # Memprediksi label untuk input pengguna
        user_input_vector = X[0]
        predicted_label = knn.predict(user_input_vector)
-   
+       
        st.write(f"Label yang diprediksi: {predicted_label[0]}")
+
