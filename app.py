@@ -149,10 +149,8 @@ with Implementasi:
         # Transform abstrak pengguna dengan model LDA
         user_topic_distribution = lda_model.transform(user_tf)
         st.write(user_topic_distribution)
-        y_pred = model1.predict(user_topic_distribution)
+        y_pred = model2.predict(user_topic_distribution)
         y_pred
-       
-
-
-
+        accuracy = accuracy_score(y_test, y_pred)
+        st.write("Akurasi: {:.2f}%".format(accuracy * 100))
 
