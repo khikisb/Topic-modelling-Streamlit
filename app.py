@@ -44,7 +44,7 @@ with Model:
     lda_top = lda.fit_transform(tf)
     data_with_lda = pd.concat([tf, data['Label']], axis=1)
    
-    df = data_with_lda.dropna()
+    df = data_with_lda.dropna(subset=['Label', 'Label'])
 
     X = df.drop(columns=['Label']).values
     y = df['Label'].values
