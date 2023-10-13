@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-Data, lda, Model = st.tabs(['Data', 'LDA', 'Modelling'])
+Data, lda, Model, Implementasi = st.tabs(['Data', 'LDA', 'Modelling', 'Implementasi'])
 
 with Data:
    st.title("UTS Pencarian & Penambangan Web A")
@@ -69,37 +69,6 @@ with Model:
     met3 = st.checkbox("Decision Tree")
     submit2 = st.button("Pilih")
 
-    tfidf_vectorizer = TfidfVectorizer()  
-    tfidf_vectorizer.fit(X_train)
-    def predict_label(input_text, model):
-       # Preprocess the input text (e.g., vectorize it using the same TF-IDF vectorizer)
-       input_vector = tfidf_vectorizer.transform([input_text])
-       # Make predictions using the selected model
-       predicted_label = model.predict(input_vector)
-       return predicted_label[0]
-
-    # Add a text input field for user to enter text
-    user_input = st.text_area("Masukkan Abstrak")
-   
-    # Add a dropdown to select the classification model
-    selected_model = st.selectbox("Select a model:", ["KNN", "Naive Bayes", "Decision Tree"])
-   
-    # Perform predictions when the user clicks the "Predict" button
-    if st.button("Predict"):
-       if user_input:
-           if selected_model == "KNN":
-               predicted_label = predict_label(user_input, model1)
-           elif selected_model == "Naive Bayes":
-               predicted_label = predict_label(user_input, model2)
-           elif selected_model == "Decision Tree":
-               predicted_label = predict_label(user_input, model3)
-           else:
-               st.error("Please select a model.")
-   
-           st.write("Predicted Label:", predicted_label)
-       else:
-           st.warning("Please enter text for prediction.")
-
     if submit2:      
         if met1:
             st.write("Metode yang Anda gunakan Adalah KNN")
@@ -124,3 +93,31 @@ with Model:
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         else:
             st.write("Anda Belum Memilih Metode")
+
+with Implementasi:
+    st.subheader("Implementasi")
+    st.write("Masukkan Abstrak yang Ingin Dianalisis:")
+    
+    user_abstract = st.text_area("Abstrak", "")
+    
+    if user_abstract:
+        # Preprocess the user input abstract (e.g., remove punctuation, stopwords, tokenize, and stem)
+        # You can use your own preprocessing functions or libraries like NLTK or SpaCy for this.
+        preprocessed_abstract = preprocess_text(user_abstract)
+        
+        # Calculate term frequency for the preprocessed abstract
+        # You can use your existing term frequency calculation code or a TF-IDF vectorizer.
+        user_tf = calculate_term_frequency(preprocessed_abstract)
+        
+        if not user_tf:
+            st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
+        else:
+            # Predict the label for the user's abstract using KNN
+            st.write("Metode yang Anda gunakan Adalah KNN")
+            predicted_label = model1.predict(user_tf.reshape(1, -1))
+            
+            if predicted_label:
+                st.write("Hasil Prediksi Label:", predicted_label[0])
+    else:
+        st.write("Silakan masukkan abstrak terlebih dahulu.")
+
