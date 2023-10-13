@@ -22,7 +22,7 @@ with Data:
    st.write(data)
 
 with lda:
-   topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1, value=topik),
+   topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1, value=5),
    lda_model = None  # Inisialisasi lda_model
 
    def submit():
