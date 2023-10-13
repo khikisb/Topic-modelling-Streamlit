@@ -98,6 +98,7 @@ with Model:
 
 with Implementasi:
     data = pd.read_csv("DF_PTA.csv")
+    count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
 
     import re
 
