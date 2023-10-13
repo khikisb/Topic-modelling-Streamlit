@@ -133,14 +133,15 @@ with Implementasi:
        token = data_clean[i].split()
        tokenize.append(token)
 
+    custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
+
     stopword = []
     for i in range(len(tokenize)):
-        listStopword = set(stopwords.words('indonesian'))
-        removed = []
-        for x in tokenize[i]:
-            if x not in listStopword:
-                removed.append(x)
-        stopword.append(removed)
+       removed = []
+       for x in tokenize[i]:
+          if x not in custom_stopwords:
+             removed.append(x)
+       stopword.append(removed)
 
     hasilproses = []
     for i in range(len(stopword)):
