@@ -9,7 +9,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 
-Data, Ekstraksi, lda, Model = st.tabs(['Data', 'Ekstraksi Fitur', 'LDA', 'Modelling'])
+Data, lda, Model = st.tabs(['Data', 'LDA', 'Modelling'])
 
 with Data :
    st.title("""UTS Pencarian & Penambangan Web A""")
@@ -26,16 +26,12 @@ with Data :
    st.subheader('Data')
    data=pd.read_csv('DF_PTA_LABEL.csv')
    data
-
-with Ekstraksi :
-   st.subheader('Term Frequency (TF)')
-   tf = pd.read_csv('TF_label.csv')
-   tf
-
+   
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
 
    def submit():
+        tf = pd.read_csv('TF_label.csv')
         lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1,random_state=42,max_iter=1)
         x=tf.drop('Label', axis=1)
         lda_top=lda.fit_transform(x)
