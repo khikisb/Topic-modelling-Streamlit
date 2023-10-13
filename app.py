@@ -29,19 +29,19 @@ with Data :
 
 with Ekstraksi :
    st.subheader('Term Frequency (TF)')
-   df_tf = pd.read_excel('df_tf.xlsx')
+   df_tf = pd.read_csv('df_tf.csv')
    df_tf
    
    st.subheader('Logarithm Frequency (Log-TF)')
-   df_log = pd.read_csv('df_log.xlsx')
+   df_log = pd.read_csv('df_log.csv)
    df_log
    
    st.subheader('Binary Frequency')
-   binary_data = pd.read_csv('binary_data.xlsx')
+   binary_data = pd.read_csv('binary_data.csv')
    binary_data
    
    st.subheader('TF-IDF')
-   df_tf_idf = pd.read_csv('df_tf_idf.xlsx')
+   df_tf_idf = pd.read_csv('df_tf_idf.csv')
    df_tf_idf
 
 with lda:
