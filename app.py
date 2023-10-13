@@ -121,32 +121,22 @@ with Implementasi:
         text = clean_symbol.sub(' ', text)
         return text
 
-    preprocessing = clean_punct(user_abstract)
-
-    data_clean = []
-    for i in range(len(preprocessing)):
-        data_clean.append(preprocessing[i])
-
-    tokenize = []
-    for i in range(len(data_clean)):
-       # Tokenisasi berdasarkan spasi
-       token = data_clean[i].split()
-       tokenize.append(token)
-
-    custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
-
-    stopword = []
-    for i in range(len(tokenize)):
-       removed = [x for x in tokenize[i] if x not in custom_stopwords]
-       stopword.append(removed)
-    stopword
-
     if user_abstract:
+        # Membersihkan tanda baca
+        preprocessing = clean_punct(user_abstract)
+
+        # Tokenisasi berdasarkan spasi
+        tokenize = preprocessing.split()
+
+        # Menghapus custom stopwords
+        custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
+        stopword = [x for x in tokenize if x not in custom_stopwords]
+
         # Fit vocabulary dengan data latih
         count_vectorizer.fit(data['Abstrak'])
 
         # Transform abstrak pengguna dengan count_vectorizer
-        user_tf = count_vectorizer.transform(stopword)
+        user_tf = count_vectorizer.transform([stopword])
         
         if lda_model is None:
             lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
@@ -157,4 +147,5 @@ with Implementasi:
         user_topic_distribution = lda_model.transform(user_tf)
         st.write(user_topic_distribution)
         y_pred = model2.predict(user_topic_distribution)
-        y_pred
+        st.write("Hasil Prediksi:", y_pred)
+
