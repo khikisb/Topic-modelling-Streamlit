@@ -144,17 +144,20 @@ with Implementasi:
 
         # Transform abstrak pengguna dengan count_vectorizer
         user_tf = count_vectorizer.transform([preprocessed_abstract])
-
-        # Transform abstrak pengguna dengan model LDA
-        user_topic_distribution = lda_model.transform(user_tf)
-
-        st.write("Metode yang Anda gunakan Adalah LDA")
-        st.write("Hasil Distribusi Topik:")
-        st.write(user_topic_distribution)
-
-        if knn_model is not None:
-            # Prediksi label dengan model KNN
-            predicted_label = knn_model.predict(user_topic_distribution)
-            st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
+      
+        if lda_model is not None:
+           # Transform abstrak pengguna dengan model LDA
+           user_topic_distribution = lda_model.transform(user_tf)
+      
+           st.write("Metode yang Anda gunakan Adalah LDA")
+           st.write("Hasil Distribusi Topik:")
+           st.write(user_topic_distribution)
+      
+           if knn_model is not None:
+              # Prediksi label dengan model KNN
+              predicted_label = knn_model.predict(user_topic_distribution)
+              st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
+           else:
+              st.write("Latih model KNN terlebih dahulu.")
         else:
-            st.write("Latih model KNN terlebih dahulu.")
+           st.write("Model LDA belum ada. Silakan latih model LDA terlebih dahulu.")
