@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-Data, lda, Model = st.tabs(['Data', 'LDA', 'Modelling'])
+Data, lda, Model, Implementasi = st.tabs(['Data', 'LDA', 'Modelling', 'Implementasi'])
 
 with Data:
    st.title("UTS Pencarian & Penambangan Web A")
@@ -94,27 +94,47 @@ with Model:
         else:
             st.write("Anda Belum Memilih Metode")
 
-    st.write("Masukkan Abstrak yang Ingin Diprediksi:")
-    user_input = st.text_input("Abstrak:")
-
-    if user_input:
-        # Preprocessing input abstrak (misalnya, tokenisasi dan vektorisasi)
-        user_input_vector = # Lakukan preprocessing dan vektorisasi input abstrak
-
-        if met1:
-            st.write("Metode yang Anda gunakan Adalah KNN")
-            # Prediksi abstrak menggunakan model KNN
-            user_abstract_prediction = model1.predict([user_input_vector])
-            st.write("Prediksi Abstrak: ", user_abstract_prediction[0])
-        elif met2:
-            st.write("Metode yang Anda gunakan Adalah Naive Bayes")
-            # Prediksi abstrak menggunakan model Naive Bayes
-            user_abstract_prediction = model2.predict([user_input_vector])
-            st.write("Prediksi Abstrak: ", user_abstract_prediction[0])
-        elif met3:
-            st.write("Metode yang Anda gunakan Adalah Decision Tree")
-            # Prediksi abstrak menggunakan model Decision Tree
-            user_abstract_prediction = model3.predict([user_input_vector])
-            st.write("Prediksi Abstrak: ", user_abstract_prediction[0])
-        else:
-            st.write("Anda Belum Memilih Metode")
+with Implementasi:
+      # Preprocessing function
+   def preprocess_text(text):
+       # Menghilangkan tanda baca
+       text = text.translate(str.maketrans('', '', string.punctuation))
+   
+       # Tokenisasi
+       tokens = word_tokenize(text)
+   
+       # Stopwords removal
+       tokens = [word for word in tokens if word.lower() not in ENGLISH_STOP_WORDS]
+   
+       # Stemming (opsional)
+       # Stemmer untuk mengubah kata-kata menjadi bentuk dasar
+       stemmer = PorterStemmer()
+       tokens = [stemmer.stem(word) for word in tokens]
+   
+       return " ".join(tokens)
+   
+   st.write("Masukkan Abstrak yang Ingin Diprediksi:")
+   user_input = st.text_input("Abstrak:")
+   
+   if user_input:
+       # Preprocessing input abstrak
+       user_input_preprocessed = preprocess_text(user_input)
+   
+       # Contoh data training (menggunakan df)
+       # Misalkan df memiliki dua kolom: "Abstrak" dan "Label"
+       training_data = df["Abstrak"]
+       labels = df["Label"]
+   
+       # Menggunakan CountVectorizer
+       vectorizer = CountVectorizer()
+       X = vectorizer.fit_transform([user_input_preprocessed] + training_data)
+   
+       # Inisialisasi model KNN
+       knn = KNeighborsClassifier(n_neighbors=3)
+       knn.fit(X[1:], labels)  # Menggunakan data training (indeks 1 ke depan) dan labelnya
+   
+       # Memprediksi label untuk input pengguna
+       user_input_vector = X[0]
+       predicted_label = knn.predict(user_input_vector)
+   
+       st.write(f"Label yang diprediksi: {predicted_label[0]}")
