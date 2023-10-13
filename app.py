@@ -9,7 +9,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 
-Data, Ekstraksi, lda, Model = st.tabs(['Data', 'Ekstraksi Fitur', 'LDA', 'Modelling'])
+Data, Ekstraksi, lda, Model = st.tabs(['Data', 'LDA', 'Modelling'])
 
 with Data :
    st.title("""UTS Pencarian & Penambangan Web A""")
@@ -27,22 +27,22 @@ with Data :
    data=pd.read_csv('DF_PTA_LABEL.csv')
    data
 
-with Ekstraksi :
-   st.subheader('Term Frequency (TF)')
-   df_tf = pd.read_csv('df_tf.csv')
-   df_tf
+# with Ekstraksi :
+#    st.subheader('Term Frequency (TF)')
+#    df_tf = pd.read_csv('df_tf.csv')
+#    df_tf
    
-   st.subheader('Logarithm Frequency (Log-TF)')
-   df_log = pd.read_csv('df_log.csv')
-   df_log
+#    st.subheader('Logarithm Frequency (Log-TF)')
+#    df_log = pd.read_csv('df_log.csv')
+#    df_log
    
-   st.subheader('Binary Frequency')
-   binary_data = pd.read_csv('binary_data.csv')
-   binary_data
+#    st.subheader('Binary Frequency')
+#    binary_data = pd.read_csv('binary_data.csv')
+#    binary_data
    
-   st.subheader('TF-IDF')
-   df_tf_idf = pd.read_csv('df_tf_idf.csv')
-   df_tf_idf
+#    st.subheader('TF-IDF')
+#    df_tf_idf = pd.read_csv('df_tf_idf.csv')
+#    df_tf_idf
 
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
