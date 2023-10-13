@@ -120,9 +120,7 @@ with Implementasi:
         text = clean_symbol.sub(' ', text)
         return text
 
-    # Buat kolom tambahan untuk data description yang telah di remove punctuation
-    preprocessing = user_abstract.apply(clean_punct)
-    clean = pd.DataFrame(preprocessing)
+    preprocessing = clean_punct(user_abstract)
 
     data_clean = []
     for i in range(len(preprocessing)):
