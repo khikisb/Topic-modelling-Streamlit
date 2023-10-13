@@ -13,7 +13,7 @@ Data, Ekstraksi, lda, Model = st.tabs(['Data', 'Ekstraksi Fitur', 'LDA', 'Modell
 
 with Data :
    st.title("""UTS Pencarian & Penambangan Web A""")
-   st.text('Zuni Amanda Dewi 200411100051')
+   st.text('Okhi Sahrul Barkah')
    st.subheader('Deskripsi Data')
    st.write("""Dimana Fitur yang ada di dalam data tersebut diantaranya :""")
    st.text("""
@@ -24,7 +24,7 @@ with Data :
             5) Abstrak
             5) Label""")
    st.subheader('Data')
-   data=pd.read_csv('crawling_pta_labeled.csv')
+   data=pd.read_csv('DF_PTA_LABEL.csv')
    data
 
 with Ekstraksi :
