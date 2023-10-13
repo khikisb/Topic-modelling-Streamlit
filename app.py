@@ -102,7 +102,7 @@ with Implementasi:
         text = re.sub(r'[^a-zA-Z\s]', '', text)
        
         # Convert to lowercase
-        text = text.lower()
+        text = text lower()
        
         # Tokenize the text into words (using a simple space-based split)
         words = text.split()
@@ -130,7 +130,6 @@ with Implementasi:
        
         return term_frequency
 
-
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
     
@@ -141,22 +140,18 @@ with Implementasi:
         preprocessed_abstract = preprocess_text(user_abstract)
         
         # Calculate term frequency for the preprocessed abstract
-        # You may need to define this function based on your specific requirements
         user_tf = calculate_term_frequency(preprocessed_abstract)
         
         if not user_tf:
             st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
         else:
-            # Convert user_tf to a format that can be used with your KNN model
-            # You may need to adapt this part based on your KNN model's input requirements
-            user_tf_transformed = transform_to_knn_input(user_tf)
-            
             # Predict the label for the user's abstract using KNN
             st.write("Metode yang Anda gunakan Adalah KNN")
-            predicted_label = model1.predict(user_tf_transformed.reshape(1, -1))
+            predicted_label = model1.predict(user_tf)  # No need for additional transformation
             
             if predicted_label:
                 st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
+
 
