@@ -46,23 +46,24 @@ with Data :
 
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
-
+   
    def submit():
-        df_tf = pd.read_csv('TF_label.csv')
-        lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1,random_state=42,max_iter=1)
-        x = df_tf.drop('Label', axis=1)
-        lda_top = lda.fit_transform(x)
-        #bobot setiap topik terhadap dokumen
-        nama_clm =[]
-        for i in range(topik):
-            nama_clm.append(("Topik "+ str(i+1)))
-        U = pd.DataFrame(lda_top, columns=nama_clm)
-        U['Label']=tf['Label'].values
-        U
-   all = st.button("Submit")
-   if all :
-      st.balloons()
-      submit()
+       lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42)
+       df_tf = pd.read_csv('TF_label.csv')
+       x = df_tf.drop('Label', axis=1)
+       lda_top = lda.fit_transform(x)
+       
+       # Bobot setiap topik terhadap dokumen
+       nama_clm = []
+       for i in range(topik):
+           nama_clm.append("Topik " + str(i+1))
+       U = pd.DataFrame(lda_top, columns=nama_clm)
+       
+       # Menggunakan label dari DataFrame yang sesuai
+       U['Label'] = df_tf['Label'].values
+       
+       st.write(U)
+       submit()
 
 with Model :
     # if all :
