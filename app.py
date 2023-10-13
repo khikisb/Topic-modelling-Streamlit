@@ -99,7 +99,6 @@ with Model:
 with Implementasi:
     data = pd.read_csv("DF_PTA.csv")
     data['Abstrak'].fillna("", inplace=True)
-    count_vectorizer.fit(data['Abstrak'])
     count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
     
     import re
