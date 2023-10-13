@@ -94,6 +94,7 @@ with Model:
         else:
             st.write("Anda Belum Memilih Metode")
 
+
 with Implementasi:
     import re
     
@@ -118,18 +119,6 @@ with Implementasi:
        
         return cleaned_text
 
-    def calculate_term_frequency(text):
-        words = text.split()
-        term_frequency = {}
-       
-        for word in words:
-           if word in term_frequency:
-              term_frequency[word] += 1
-           else:
-              term_frequency[word] = 1
-       
-        return term_frequency
-
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
     
@@ -139,21 +128,14 @@ with Implementasi:
         # Preprocess the user input abstract
         preprocessed_abstract = preprocess_text(user_abstract)
         
-        # Calculate term frequency for the preprocessed abstract
-        user_tf = calculate_term_frequency(preprocessed_abstract)
+        # Perform LDA on the new abstract
+        lda_top = lda.transform(calculate_term_frequency(preprocessed_abstract).reshape(1, -1))
         
-        if not user_tf:
-            st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
-        else:
-            # Convert user_tf to a NumPy array for KNN prediction
-            user_tf_array = np.array(list(user_tf.values()))
+        # Predict the label for the user's abstract using KNN
+        st.write("Metode yang Anda gunakan Adalah KNN")
+        predicted_label = model1.predict(lda_top)
             
-            # Predict the label for the user's abstract using KNN
-            st.write("Metode yang Anda gunakan Adalah KNN")
-            predicted_label = model1.predict([user_tf_array])
-            
-            if predicted_label:
-                st.write("Hasil Prediksi Label:", predicted_label[0])
+        if predicted_label:
+            st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
-
