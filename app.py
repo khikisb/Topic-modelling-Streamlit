@@ -142,6 +142,7 @@ with Implementasi:
           if x not in custom_stopwords:
              removed.append(x)
        stopword.append(removed)
+    removed
 
     if user_abstract:
         # Fit vocabulary dengan data latih
