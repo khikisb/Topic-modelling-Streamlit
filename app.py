@@ -29,24 +29,8 @@ with Data :
 
 with Ekstraksi :
    st.subheader('Term Frequency (TF)')
-   dwn_url1='https://drive.google.com/uc?id=' + file_id1
-   tf = pd.read_csv(dwn_url1)
+   tf = pd.read_csv('TF_label.csv')
    tf
-   
-   st.subheader('Logarithm Frequency (Log-TF)')
-   dwn_url2='https://drive.google.com/uc?id=' + file_id2
-   log_tf = pd.read_csv(dwn_url2)
-   log_tf
-   
-   st.subheader('One Hot Encoder / Binary')
-   dwn_url3='https://drive.google.com/uc?id=' + file_id3
-   oht = pd.read_csv(dwn_url3)
-   oht
-   
-   st.subheader('TF-IDF')
-   dwn_url4='https://drive.google.com/uc?id=' + file_id4
-   tf_idf = pd.read_csv(dwn_url4)
-   tf_idf
 
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
