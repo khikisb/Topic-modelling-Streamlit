@@ -95,6 +95,28 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
+   import re
+   def preprocess_text(text):
+       # Remove special characters and digits
+       text = re.sub(r'[^a-zA-Z\s]', '', text)
+       
+       # Convert to lowercase
+       text = text.lower()
+       
+       # Tokenize the text into words (using a simple space-based split)
+       words = text.split()
+       
+       # Define a list of common English stopwords to remove
+       stopwords = ["a", "an", "the", "in", "on", "and", "is", "at", "to", "it"]
+       
+       # Remove stopwords
+       words = [word for word in words if word not in stopwords]
+       
+       # Join the words back into a cleaned text
+       cleaned_text = ' '.join(words)
+       
+       return cleaned_text
+
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
     
