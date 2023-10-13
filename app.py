@@ -95,27 +95,28 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-   import re
-   def preprocess_text(text):
-       # Remove special characters and digits
-       text = re.sub(r'[^a-zA-Z\s]', '', text)
+    import re
+    
+    def preprocess_text(text):
+        # Remove special characters and digits
+        text = re.sub(r'[^a-zA-Z\s]', '', text)
        
-       # Convert to lowercase
-       text = text.lower()
+        # Convert to lowercase
+        text = text.lower()
        
-       # Tokenize the text into words (using a simple space-based split)
-       words = text.split()
+        # Tokenize the text into words (using a simple space-based split)
+        words = text.split()
        
-       # Define a list of common English stopwords to remove
-       stopwords = ["a", "an", "the", "in", "on", "and", "is", "at", "to", "it"]
+        # Define a list of common English stopwords to remove
+        stopwords = ["a", "an", "the", "in", "on", "and", "is", "at", "to", "it"]
        
-       # Remove stopwords
-       words = [word for word in words if word not in stopwords]
+        # Remove stopwords
+        words = [word for word in words if word not in stopwords]
        
-       # Join the words back into a cleaned text
-       cleaned_text = ' '.join(words)
+        # Join the words back into a cleaned text
+        cleaned_text = ' '.join(words)
        
-       return cleaned_text
+        return cleaned_text
 
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
@@ -123,18 +124,18 @@ with Implementasi:
     user_abstract = st.text_area("Abstrak", "")
     
     if user_abstract:
-        # Preprocess the user input abstract (e.g., remove punctuation, stopwords, tokenize, and stem)
+        # Preprocess the user input abstract
         preprocessed_abstract = preprocess_text(user_abstract)
         
         # Calculate term frequency for the preprocessed abstract
+        # You may need to define this function based on your specific requirements
         user_tf = calculate_term_frequency(preprocessed_abstract)
         
         if not user_tf:
             st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
         else:
             # Convert user_tf to a format that can be used with your KNN model
-            # You may need to transform the term frequency feature vector to match the input format of your KNN model
-            # For example, if your KNN model expects a fixed-length input, you may need to pad or truncate the feature vector
+            # You may need to adapt this part based on your KNN model's input requirements
             user_tf_transformed = transform_to_knn_input(user_tf)
             
             # Predict the label for the user's abstract using KNN
@@ -145,3 +146,4 @@ with Implementasi:
                 st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
+
