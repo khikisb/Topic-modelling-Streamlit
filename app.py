@@ -15,7 +15,7 @@ with Data:
    st.text("Okhi Sahrul Barkah")
    st.subheader("Deskripsi Data")
    st.write("Dimana Fitur yang ada di dalam data tersebut diantaranya:")
-   st.text("1) NIM\n2) Judul\n3) Abstrak\n4) Program Studi\n5) Penulis\n6) Dosen Pembimbing 1"\n7) Dosen Pembimbing 2"\n8) Label")
+   st.text("1) NIM\n2) Judul\n3) Abstrak\n4) Program Studi\n5) Penulis\n6) Dosen Pembimbing 1\n7) Dosen Pembimbing 2\n8) Label")
    st.subheader("Data")
    data = pd.read_csv("DF_PTA.csv")
    st.write(data)
