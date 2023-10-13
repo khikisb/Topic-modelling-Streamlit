@@ -59,8 +59,9 @@ with Model:
     # Pelatihan model Naive Bayes dengan data pelatihan
     model2.fit(X_train, y_train)
 
-    metode3 = tree.DecisionTreeClassifier(criterion="gini")
-    metode3.fit(X_train, y_train)
+    model3 = DecisionTreeClassifier()
+    # Pelatihan model Decision Tree dengan data pelatihan
+    model3.fit(X_train, y_train)
 
     st.write("Pilih metode yang ingin anda gunakan :")
     met1 = st.checkbox("KNN")
@@ -85,8 +86,11 @@ with Model:
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         elif met3:
             st.write("Metode yang Anda gunakan Adalah Decision Tree")
-            st.write("Hasil Akurasi Data Training Menggunakan Decision Tree sebesar : ", (100 * metode3.score(X_train, y_train)))
-            st.write("Hasil Akurasi Data Testing Menggunakan Decision Tree sebesar : ", (100 * metode3.score(X_test, y_test)))
+            # Prediksi label kelas pada data pengujian
+            y_pred = model3.predict(X_test)
+            # Mengukur akurasi model
+            accuracy = accuracy_score(y_test, y_pred)
+            st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         else:
             st.write("Anda Belum Memilih Metode")
     # else:
