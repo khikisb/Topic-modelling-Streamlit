@@ -96,15 +96,19 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-   # Preprocessing function
    def preprocess_text(text):
-       # Menghilangkan tanda baca
-       text = text.translate(str.maketrans('', '', string.punctuation))
-       
-       # Stopwords removal
-       text = ' '.join([word for word in text.lower().split() if word not in ENGLISH_STOP_WORDS])
-       
-       return text
+    preprocessed_text = []
+    for doc in text:
+        # Menghilangkan tanda baca
+        doc = doc.translate(str.maketrans('', '', string.punctuation))
+
+        # Stopwords removal
+        doc = ' '.join([word for word in doc.lower().split() if word not in ENGLISH_STOP_WORDS])
+        
+        preprocessed_text.append(doc)
+        
+    return preprocessed_text
+
    
    # Fungsi untuk memprediksi label
    def predict_label(user_input, lda, knn, vectorizer):
