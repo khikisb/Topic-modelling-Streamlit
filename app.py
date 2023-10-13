@@ -131,29 +131,31 @@ with Implementasi:
     if user_abstract:
         # Preproses abstrak
         preprocessed_abstract = preprocess_text(user_abstract)
-        # Fit vocabulary dengan data latih
-        count_vectorizer.fit(data['Abstrak'])
-        # Transform abstrak pengguna dengan count_vectorizer
-        user_tf = count_vectorizer.transform([preprocessed_abstract])
 
         if lda_model is None:
             lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
             lda_top = lda_model.fit_transform(user_tf)
             st.write("Model LDA telah dilatih.")
 
-        if lda_model is not None:
-           # Transform abstrak pengguna dengan model LDA
-           user_topic_distribution = lda_model.transform(user_tf)
-      
-           st.write("Metode yang Anda gunakan Adalah LDA")
-           st.write("Hasil Distribusi Topik:")
-           st.write(user_topic_distribution)
-      
-           if knn_model is not None:
-              # Prediksi label dengan model KNN
-              predicted_label = knn_model.predict(user_topic_distribution)
-              st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
-           else:
-              st.write("Latih model KNN terlebih dahulu.")
+        # Fit vocabulary dengan data latih
+        count_vectorizer.fit(data['Abstrak'])
+
+        # Transform abstrak pengguna dengan count_vectorizer
+        user_tf = count_vectorizer.transform([preprocessed_abstract])
+
+        # Transform abstrak pengguna dengan model LDA
+        user_topic_distribution = lda_model.transform(user_tf)
+
+        st.write("Metode yang Anda gunakan adalah LDA")
+        st.write("Hasil Distribusi Topik:")
+        st.write(user_topic_distribution)
+
+        if knn_model is not None:
+            # Prediksi label dengan model KNN
+            predicted_label = knn_model.predict(user_topic_distribution)
+            st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
         else:
-           st.write("Model LDA belum ada. Silakan latih model LDA terlebih dahulu.")
+            st.write("Latih model KNN terlebih dahulu.")
+    else:
+        st.write("Masukkan teks Abstrak terlebih dahulu.")
+
