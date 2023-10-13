@@ -95,56 +95,53 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-   from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
-   import string
-   
    # Preprocessing function
    def preprocess_text(text):
        # Menghilangkan tanda baca
        text = text.translate(str.maketrans('', '', string.punctuation))
-   
+       
        # Stopwords removal
        text = ' '.join([word for word in text.lower().split() if word not in ENGLISH_STOP_WORDS])
-   
+       
        return text
    
    # Fungsi untuk memprediksi label
    def predict_label(user_input, lda, knn, vectorizer):
        # Preprocess input abstrak
        user_input_preprocessed = preprocess_text(user_input)
-   
+       
        # Mengubah abstrak baru ke dalam vektor topik dengan model LDA
        user_input_vector = lda.transform(vectorizer.transform([user_input_preprocessed]))
-   
+       
        # Memprediksi label untuk input pengguna
        predicted_label = knn.predict(user_input_vector)
        return predicted_label[0]
-
+   
+   # Membaca data dari file CSV
    tf = pd.read_csv("df_tf.csv")
    lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
    lda_top = lda.fit_transform(tf)
-   data_with_lda = pd.concat([tf, data['Label']], axis=1)
    
+   # Menggabungkan data LDA dengan label
+   data_with_lda = pd.concat([tf, data['Label']], axis=1)
    df = data_with_lda.dropna(subset=['Label', 'Label'])
-
+   
+   # Memisahkan data menjadi fitur (X) dan label (y)
    X = df.drop(columns=['Label']).values
    y = df['Label'].values
-   labels = y
+   
+   # Memisahkan data menjadi data pelatihan dan data pengujian
    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-   from sklearn.feature_extraction.text import CountVectorizer
-
+   
    # Inisialisasi CountVectorizer
    vectorizer = CountVectorizer()
    
    # Menggunakan CountVectorizer pada data pelatihan
    X_train_vectorized = vectorizer.fit_transform(X_train)
+   
    # Inisialisasi model KNN
    knn = KNeighborsClassifier(n_neighbors=5)
-   knn.fit(X_train, y_train)
-   user_input = "Abstrak baru yang ingin diprediksi"
-   predicted_label = predict_label(user_input, lda, knn, vectorizer)
-   print(f"Label yang diprediksi: {predicted_label}")
+   knn.fit(X_train_vectorized, y_train)
    
    # Contoh penggunaan:
    user_input = "Abstrak baru yang ingin diprediksi"
