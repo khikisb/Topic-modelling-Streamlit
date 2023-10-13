@@ -97,6 +97,7 @@ with Model:
 
 with Implementasi:
     import re
+    from sklearn.feature_extraction.text import CountVectorizer
     
     def preprocess_text(text):
         # Remove special characters and digits
@@ -108,6 +109,7 @@ with Implementasi:
         # Tokenize the text into words (using a simple space-based split)
         words = text.split()
        
+        # Define a list of common English stopwords to remove
         stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
        
         # Remove stopwords
@@ -128,7 +130,8 @@ with Implementasi:
         preprocessed_abstract = preprocess_text(user_abstract)
         
         # Transform the preprocessed abstract to match the input format of your LDA model
-        lda_top = lda.transform([preprocessed_abstract])
+        user_tf = count_vectorizer.transform([preprocessed_abstract])
+        lda_top = lda.transform(user_tf)
         
         # Predict the label for the user's abstract using the LDA model
         st.write("Metode yang Anda gunakan Adalah LDA")
