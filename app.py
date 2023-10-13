@@ -33,7 +33,7 @@ with Ekstraksi :
    df_tf
    
    st.subheader('Logarithm Frequency (Log-TF)')
-   df_log = pd.read_csv('df_log.csv)
+   df_log = pd.read_csv('df_log.csv')
    df_log
    
    st.subheader('Binary Frequency')
