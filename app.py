@@ -96,7 +96,6 @@ with Model:
 
 with Implementasi:
    from sklearn.feature_extraction.text import CountVectorizer
-   from sklearn.neighbors import KNeighborsClassifier
    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
    from nltk.tokenize import word_tokenize
    from nltk.stem import PorterStemmer
@@ -128,7 +127,7 @@ with Implementasi:
    
        # Contoh data training (menggunakan df)
        # Misalkan df memiliki dua kolom: "Abstrak" dan "Label"
-       training_data = df["Abstrak"]
+       training_data = df.drop(columns=['Label']).values
        labels = df["Label"]
    
        # Menggunakan CountVectorizer
@@ -136,7 +135,7 @@ with Implementasi:
        X = vectorizer.fit_transform([user_input_preprocessed] + training_data)
    
        # Inisialisasi model KNN
-       knn = KNeighborsClassifier(n_neighbors=3)
+       knn = KNeighborsClassifier(n_neighbors=5)
        knn.fit(X[1:], labels)  # Menggunakan data training (indeks 1 ke depan) dan labelnya
    
        # Memprediksi label untuk input pengguna
