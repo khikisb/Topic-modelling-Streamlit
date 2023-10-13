@@ -100,10 +100,11 @@ with Implementasi:
     from sklearn.feature_extraction.text import CountVectorizer
 
     # Inisialisasi kembali count_vectorizer
-    count_vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='indonesian')
-    # Fitting count_vectorizer ke data pelatihan
-    count_vectorizer.fit(data['Abstrak'])
+    count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
     
+    # Membuat list custom stop words dalam bahasa Indonesia
+    custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
+
     def preprocess_text(text):
         # Remove special characters and digits
         text = re.sub(r'[^a-zA-Z\s]', '', text)
@@ -114,11 +115,8 @@ with Implementasi:
         # Tokenize the text into words (using a simple space-based split)
         words = text.split()
        
-        # Define a list of common Indonesian stopwords to remove
-        stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
-       
-        # Remove stopwords
-        words = [word for word in words if word not in stopwords]
+        # Remove custom stop words
+        words = [word for word in words if word not in custom_stopwords]
        
         # Join the words back into a cleaned text
         cleaned_text = ' '.join(words)
@@ -146,3 +144,4 @@ with Implementasi:
             st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
+
