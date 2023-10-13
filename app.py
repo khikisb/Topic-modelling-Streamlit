@@ -118,17 +118,17 @@ with Implementasi:
        
         return cleaned_text
 
-   def calculate_term_frequency(text):
-       words = text.split()
-       term_frequency = {}
+    def calculate_term_frequency(text):
+        words = text.split()
+        term_frequency = {}
        
-       for word in words:
+        for word in words:
            if word in term_frequency:
-               term_frequency[word] += 1
+              term_frequency[word] += 1
            else:
-               term_frequency[word] = 1
+              term_frequency[word] = 1
        
-       return term_frequency
+        return term_frequency
 
 
     st.subheader("Implementasi")
