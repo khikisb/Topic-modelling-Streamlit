@@ -7,7 +7,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import tree
 
-Data, lda, Model = st.columns(3)
+Data, lda, Model = st.tabs(['Data', 'LDA', 'Modelling'])
 
 with Data:
    st.title("UTS Pencarian & Penambangan Web A")
