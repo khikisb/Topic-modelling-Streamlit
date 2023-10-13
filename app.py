@@ -134,7 +134,7 @@ with Implementasi:
    # Contoh penggunaan:
    # Inisialisasi model KNN
    knn = KNeighborsClassifier(n_neighbors=5)
-   knn.fit(X[1:], labels)
+   knn.fit(X_train, y_train)
    user_input = "Abstrak baru yang ingin diprediksi"
    predicted_label = predict_label(user_input, lda, knn, vectorizer)
    print(f"Label yang diprediksi: {predicted_label}")
