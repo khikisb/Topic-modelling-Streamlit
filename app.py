@@ -93,3 +93,32 @@ with Model:
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         else:
             st.write("Anda Belum Memilih Metode")
+
+   def predict_label(input_text, model):
+       # Preprocess the input text (e.g., vectorize it using the same TF-IDF vectorizer)
+       input_vector = tfidf_vectorizer.transform([input_text])
+       # Make predictions using the selected model
+       predicted_label = model.predict(input_vector)
+       return predicted_label[0]
+
+   # Add a text input field for user to enter text
+   user_input = st.text_area("Masukkan Abstrak")
+   
+   # Add a dropdown to select the classification model
+   selected_model = st.selectbox("Select a model:", ["KNN", "Naive Bayes", "Decision Tree"])
+   
+   # Perform predictions when the user clicks the "Predict" button
+   if st.button("Predict"):
+       if user_input:
+           if selected_model == "KNN":
+               predicted_label = predict_label(user_input, model1)
+           elif selected_model == "Naive Bayes":
+               predicted_label = predict_label(user_input, model2)
+           elif selected_model == "Decision Tree":
+               predicted_label = predict_label(user_input, model3)
+           else:
+               st.error("Please select a model.")
+   
+           st.write("Predicted Label:", predicted_label)
+       else:
+           st.warning("Please enter text for prediction.")
