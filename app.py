@@ -21,10 +21,6 @@ with Data:
    data = pd.read_csv("DF_PTA.csv")
    st.write(data)
 
-   # Inisialisasi count_vectorizer dan fit dengan data Abstrak
-   count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
-   count_vectorizer.fit(data['Abstrak'])
-
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
 
@@ -101,8 +97,28 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-    # ...
-    # (Kode sebelumnya)
+    import re
+
+    # Membuat list custom stop words dalam bahasa Indonesia
+    custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
+
+    def preprocess_text(text):
+        # Remove special characters and digits
+        text = re.sub(r'[^a-zA-Z\s]', '', text)
+       
+        # Convert to lowercase
+        text = text.lower()
+       
+        # Tokenize the text into words (using a simple space-based split)
+        words = text.split()
+       
+        # Remove custom stop words
+        words = [word for word in words if word not in custom_stopwords]
+       
+        # Join the words back into a cleaned text
+        cleaned_text = ' '.join(words)
+       
+        return cleaned_text
 
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
