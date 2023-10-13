@@ -69,6 +69,8 @@ with Model:
     met3 = st.checkbox("Decision Tree")
     submit2 = st.button("Pilih")
 
+    tfidf_vectorizer = TfidfVectorizer()  
+    tfidf_vectorizer.fit(X_train)
     def predict_label(input_text, model):
        # Preprocess the input text (e.g., vectorize it using the same TF-IDF vectorizer)
        input_vector = tfidf_vectorizer.transform([input_text])
