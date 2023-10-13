@@ -146,10 +146,9 @@ with Implementasi:
         # Transform abstrak pengguna dengan model LDA
         user_topic_distribution = lda_model.transform(user_tf)
         st.write(user_topic_distribution)
-        # Prediksi label pengguna menggunakan model KNN
-        user_label = model1.predict(user_topic_distribution) 
-        # Tambahkan kolom "Prediksi_Label" ke DataFrame df dengan prediksi label pengguna
-        df['Prediksi_Label'] = user_label
+        y_pred = model1.predict(user_topic_distribution)
+        y_pred
+       
 
 
 
