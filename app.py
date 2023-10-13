@@ -146,7 +146,7 @@ with Implementasi:
         stopword.append(removed)
 
     hasilproses = []
-    for i in range(len(stopword):
+    for i in range(len(stopword)):
         joinkata = ' '.join(stopword[i])
         hasilproses.append(joinkata)
 
