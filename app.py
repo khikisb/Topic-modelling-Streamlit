@@ -8,7 +8,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.feature_extraction.text import CountVectorizer
-import re
 
 Data, lda, Model, Implementasi = st.tabs(['Data', 'LDA', 'Modelling', 'Implementasi'])
 
@@ -104,41 +103,44 @@ with Implementasi:
     data = pd.read_csv("DF_PTA.csv")
     data['Abstrak'].fillna("", inplace=True)
     count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
+    
+    import re
+
+    # Membuat list custom stop words dalam bahasa Indonesia
+    custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
+
+    def preprocess_text(text):
+        # Remove special characters and digits
+        text = re.sub(r'[^a-zA-Z\s]', '', text)
+        
+        # Convert to lowercase
+        text = text.lower()
+        
+        # Tokenize the text into words (using a simple space-based split)
+        words = text.split()
+        
+        # Remove custom stop words
+        words = [word for word in words if word not in custom_stopwords]
+        
+        # Join the words back into a cleaned text
+        cleaned_text = ' '.join(words)
+        
+        return cleaned_text
 
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
     user_abstract = st.text_area("Abstrak", "")
 
-    def clean_punct(text):
-        # Remove Punctuation
-        clean_tag = re.compile('@\S+')
-        clean_url = re.compile('https?:\/\/.*[\r\n]*')
-        clean_hastag = re.compile('#\S+')
-        clean_symbol = re.compile('[^a-zA-Z]')
-        text = clean_tag.sub('', str(text))
-        text = clean_url.sub('', text)
-        text = clean_hastag.sub(' ', text)
-        text = clean_symbol.sub(' ', text)
-        return text
-
     if user_abstract:
-        # Membersihkan tanda baca
-        preprocessing = clean_punct(user_abstract)
-
-        # Tokenisasi berdasarkan spasi
-        tokenize = preprocessing.split()
-
-        # Menghapus custom stopwords
-        custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
-        stopword = [x for x in tokenize if x not in custom_stopwords]
-        stopword_text = " ".join(stopword)
+        # Preproses abstrak
+        preprocessed_abstract = preprocess_text(user_abstract)
 
         # Fit vocabulary dengan data latih
         count_vectorizer.fit(data['Abstrak'])
 
         # Transform abstrak pengguna dengan count_vectorizer
-        user_tf = count_vectorizer.transform([stopword_text])
-        
+        user_tf = count_vectorizer.transform([preprocessed_abstract])
+       
         if lda_model is None:
             lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
             lda_top = lda_model.fit_transform(user_tf)
@@ -148,5 +150,5 @@ with Implementasi:
         user_topic_distribution = lda_model.transform(user_tf)
         st.write(user_topic_distribution)
         y_pred = model2.predict(user_topic_distribution)
-        st.write("Hasil Prediksi:", y_pred)
+        y_pred
 
