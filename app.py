@@ -36,6 +36,7 @@ with lda:
    all = st.button("Submit")
    if all:
       submit()
+      lda_model = lda
 
 with Model:
     tf = pd.read_csv("df_tf.csv")
