@@ -131,12 +131,13 @@ with Implementasi:
         # Menghapus custom stopwords
         custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
         stopword = [x for x in tokenize if x not in custom_stopwords]
+        stopword_text = " ".join(stopword)
 
         # Fit vocabulary dengan data latih
         count_vectorizer.fit(data['Abstrak'])
 
         # Transform abstrak pengguna dengan count_vectorizer
-        user_tf = count_vectorizer.transform([stopword])
+        user_tf = count_vectorizer.transform([stopword_text])
         
         if lda_model is None:
             lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
