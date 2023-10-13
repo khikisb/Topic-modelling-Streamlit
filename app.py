@@ -102,22 +102,24 @@ with Implementasi:
     
     if user_abstract:
         # Preprocess the user input abstract (e.g., remove punctuation, stopwords, tokenize, and stem)
-        # You can use your own preprocessing functions or libraries like NLTK or SpaCy for this.
         preprocessed_abstract = preprocess_text(user_abstract)
         
         # Calculate term frequency for the preprocessed abstract
-        # You can use your existing term frequency calculation code or a TF-IDF vectorizer.
         user_tf = calculate_term_frequency(preprocessed_abstract)
         
         if not user_tf:
             st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
         else:
+            # Convert user_tf to a format that can be used with your KNN model
+            # You may need to transform the term frequency feature vector to match the input format of your KNN model
+            # For example, if your KNN model expects a fixed-length input, you may need to pad or truncate the feature vector
+            user_tf_transformed = transform_to_knn_input(user_tf)
+            
             # Predict the label for the user's abstract using KNN
             st.write("Metode yang Anda gunakan Adalah KNN")
-            predicted_label = model1.predict(user_tf.reshape(1, -1))
+            predicted_label = model1.predict(user_tf_transformed.reshape(1, -1))
             
             if predicted_label:
                 st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
-
