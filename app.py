@@ -53,8 +53,16 @@ with Model:
     metode1 = KNeighborsClassifier(n_neighbors=3)
     metode1.fit(X_train, y_train)
 
-    metode2 = GaussianNB()
-    metode2.fit(X_train, y_train)
+    # metode2 = GaussianNB()
+    # metode2.fit(X_train, y_train)
+    # # Inisialisasi model Naive Bayes
+    model2 = MultinomialNB()
+    # Pelatihan model Naive Bayes dengan data pelatihan
+    model2.fit(X_train, y_train)
+    # Prediksi label kelas pada data pengujian
+    y_pred = model.predict(X_test)
+    # Mengukur akurasi model
+    accuracy = accuracy_score(y_test, y_pred)
 
     metode3 = tree.DecisionTreeClassifier(criterion="gini")
     metode3.fit(X_train, y_train)
@@ -81,8 +89,7 @@ with Model:
             st.write("Hasil Akurasi Data Testing Menggunakan KNN sebesar : ", (100 * metode1.score(X_test, y_test)))
         elif met2:
             st.write("Metode yang Anda gunakan Adalah Naive Bayes")
-            st.write("Hasil Akurasi Data Training Menggunakan Naive Bayes sebesar : ", (100 * metode2.score(X_train, y_train)))
-            st.write("Hasil Akurasi Data Testing Menggunakan Naive Bayes sebesar : ", (100 * metode2.score(X_test, y_test)))
+            st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         elif met3:
             st.write("Metode yang Anda gunakan Adalah Decision Tree")
             st.write("Hasil Akurasi Data Training Menggunakan Decision Tree sebesar : ", (100 * metode3.score(X_train, y_train)))
