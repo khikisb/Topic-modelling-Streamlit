@@ -32,12 +32,12 @@ with lda:
       U = pd.DataFrame(lda_top, columns=nama_clm)
       data_with_lda = pd.concat([U, data['Label']], axis=1)
       st.write(data_with_lda)
-      return lda  # Mengembalikan model LDA
+      return lda 
 
    all = st.button("Submit")
-   lda_model = None  # Inisialisasi lda_model
+   lda_model = None 
    if all:
-      lda_model = submit()  # Menginisialisasi lda_model dengan model yang dikembalikan oleh submit()
+      lda_model = submit()  
 
 with Model:
     tf = pd.read_csv("df_tf.csv")
@@ -129,25 +129,28 @@ with Implementasi:
     user_abstract = st.text_area("Abstrak", "")
 
     if user_abstract:
-        # Preprocess the user input abstract
-        preprocessed_abstract = preprocess_text(user_abstract)
-
-        # Clean the data by removing rows with NaN values in the "Abstrak" column
-        data_cleaned = data.dropna(subset=['Abstrak'])
-
-        # Fit the count_vectorizer on the cleaned data
-        count_vectorizer.fit(data_cleaned['Abstrak'])
-
-        # Transform the preprocessed abstract using count_vectorizer
-        user_tf = count_vectorizer.transform([preprocessed_abstract])
-        lda_top = lda_model.transform(user_tf)
-
-        # Predict the label for the user's abstract using the LDA model
-        st.write("Metode yang Anda gunakan Adalah LDA")
-        predicted_label = lda_model.predict(lda_top)
-
-        if predicted_label:
-            st.write("Hasil Prediksi Label:", predicted_label[0])
+       # Preprocess the user input abstract
+       preprocessed_abstract = preprocess_text(user_abstract)
+   
+       # Clean the data by removing rows with NaN values in the "Abstrak" column
+       data_cleaned = data.dropna(subset=['Abstrak'])
+   
+       # Fit the count_vectorizer on the cleaned data
+       count_vectorizer.fit(data_cleaned['Abstrak'])
+   
+       # Transform the preprocessed abstract using count_vectorizer
+       user_tf = count_vectorizer.transform([preprocessed_abstract])
+   
+       # Predict the label for the user's abstract using the LDA model
+       st.write("Metode yang Anda gunakan Adalah LDA")
+   
+       # Transform user's TF vector into topic distribution
+       user_topic_distribution = lda_model.transform(user_tf)
+   
+       # Determine the most likely topic
+       predicted_topic = user_topic_distribution.argmax()
+       st.write("Topik yang Paling Sesuai:", predicted_topic)
     else:
-        st.write("Silakan masukkan abstrak terlebih dahulu.")
+       st.write("Silakan masukkan abstrak terlebih dahulu.")
+
 
