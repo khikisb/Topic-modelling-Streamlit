@@ -40,14 +40,15 @@ with Model:
     tf = pd.read_csv("df_tf.csv")
     st.subheader("Jumlah Topik yang Anda Gunakan : " + str(topik))
     st.write("Jika pada menu LDA tidak menentukan jumlah topiknya maka proses modelling akan di default dengan jumlah topik = 1")
+    lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
+    lda_top = lda.fit_transform(tf)
     data_with_lda = pd.concat([tf, data['Label']], axis=1)
    
     df = data_with_lda.dropna()
 
-    lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
-    lda_top = lda.fit_transform(df.drop(columns=['Label']).values)
-    y = df.Label
-    X_train, X_test, y_train, y_test = train_test_split(lda_top, y, test_size=0.2, random_state=42)
+    X = df.drop(columns=['Label']).values
+    y = df['Label'].values
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
     metode1 = KNeighborsClassifier(n_neighbors=3)
     metode1.fit(X_train, y_train)
