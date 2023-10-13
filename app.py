@@ -57,13 +57,9 @@ with Model:
     # metode2 = GaussianNB()
     # metode2.fit(X_train, y_train)
     # # Inisialisasi model Naive Bayes
-    metode2 = MultinomialNB()
+    model = MultinomialNB()
     # Pelatihan model Naive Bayes dengan data pelatihan
-    metode2.fit(X_train, y_train)
-    # Prediksi label kelas pada data pengujian
-    y_pred = metode2.predict(X_test)
-    # Mengukur akurasi model
-    accuracy = accuracy_score(y_test, y_pred)
+    model.fit(X_train, y_train)
 
     metode3 = tree.DecisionTreeClassifier(criterion="gini")
     metode3.fit(X_train, y_train)
@@ -90,6 +86,10 @@ with Model:
             st.write("Hasil Akurasi Data Testing Menggunakan KNN sebesar : ", (100 * metode1.score(X_test, y_test)))
         elif met2:
             st.write("Metode yang Anda gunakan Adalah Naive Bayes")
+            # Prediksi label kelas pada data pengujian
+            y_pred = model.predict(X_test)
+            # Mengukur akurasi model
+            accuracy = accuracy_score(y_test, y_pred)
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         elif met3:
             st.write("Metode yang Anda gunakan Adalah Decision Tree")
