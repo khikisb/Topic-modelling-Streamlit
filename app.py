@@ -101,47 +101,34 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-    import re
-
-    # Membuat list custom stop words dalam bahasa Indonesia
-    custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
-
-    def preprocess_text(text):
-        # Remove special characters and digits
-        text = re.sub(r'[^a-zA-Z\s]', '', text)
-       
-        # Convert to lowercase
-        text = text.lower()
-       
-        # Tokenize the text into words (using a simple space-based split)
-        words = text.split()
-       
-        # Remove custom stop words
-        words = [word for word in words if word not in custom_stopwords]
-       
-        # Join the words back into a cleaned text
-        cleaned_text = ' '.join(words)
-       
-        return cleaned_text
+    # ...
+    # (Kode sebelumnya)
 
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
-    
+
     user_abstract = st.text_area("Abstrak", "")
-    
+
     if user_abstract:
         # Preprocess the user input abstract
         preprocessed_abstract = preprocess_text(user_abstract)
-        
+
+        # Clean the data by removing rows with NaN values in the "Abstrak" column
+        data_cleaned = data.dropna(subset=['Abstrak'])
+
+        # Fit the count_vectorizer on the cleaned data
+        count_vectorizer.fit(data_cleaned['Abstrak'])
+
         # Transform the preprocessed abstract using count_vectorizer
         user_tf = count_vectorizer.transform([preprocessed_abstract])
-        lda_top = lda_model.transform(user_tf)  # Menggunakan lda_model yang telah difit di "LDA"
-        
+        lda_top = lda_model.transform(user_tf)
+
         # Predict the label for the user's abstract using the LDA model
         st.write("Metode yang Anda gunakan Adalah LDA")
         predicted_label = lda_model.predict(lda_top)
-        
+
         if predicted_label:
             st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
+
