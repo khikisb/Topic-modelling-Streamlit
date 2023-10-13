@@ -98,13 +98,6 @@ with Implementasi:
    from sklearn.feature_extraction.text import CountVectorizer
    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
    import string
-
-   tf = pd.read_csv("df_tf.csv")
-   lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
-   lda_top = lda.fit_transform(tf)
-   data_with_lda = pd.concat([tf, data['Label']], axis=1)
-   
-   df = data_with_lda.dropna(subset=['Label', 'Label'])
    # Preprocessing function
    def preprocess_text(text):
        # Menghilangkan tanda baca
@@ -121,10 +114,16 @@ with Implementasi:
    if user_input:
        # Preprocessing input abstrak
        user_input_preprocessed = preprocess_text(user_input)
+       tf = pd.read_csv("df_tf.csv")
+       lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
+       lda_top = lda.fit_transform(tf)
+       data_with_lda = pd.concat([tf, data['Label']], axis=1)
+   
+       df = data_with_lda.dropna(subset=['Label', 'Label'])
    
        # Contoh data training (menggunakan df)
        # Misalkan df memiliki dua kolom: "Abstrak" dan "Label"
-       training_data = df.drop(columns=['Label'])['Abstrak']
+       training_data = df.drop(columns=['Label']).values
        labels = df["Label"]
    
        # Menggunakan CountVectorizer
