@@ -120,10 +120,6 @@ with Implementasi:
        X = df.drop(columns=['Label']).values
        y = df['Label'].values
        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-       # Inisialisasi model KNN
-       knn = KNeighborsClassifier(n_neighbors=5)
-       knn.fit(X[1:], Label)
-
    
    # Fungsi untuk memprediksi label
    def predict_label(user_input, lda, knn, vectorizer):
@@ -138,6 +134,9 @@ with Implementasi:
        return predicted_label[0]
    
    # Contoh penggunaan:
+   # Inisialisasi model KNN
+   knn = KNeighborsClassifier(n_neighbors=5)
+   knn.fit(X[1:], Label)
    user_input = "Abstrak baru yang ingin diprediksi"
    predicted_label = predict_label(user_input, lda, knn, vectorizer)
    print(f"Label yang diprediksi: {predicted_label}")
