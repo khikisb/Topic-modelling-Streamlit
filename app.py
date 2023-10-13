@@ -16,7 +16,7 @@ with Data:
    st.write("Dimana Fitur yang ada di dalam data tersebut diantaranya:")
    st.text("1) Judul\n2) Penulis\n3) Dosen Pembimbing 1\n4) Dosen Pembinbing 2\n5) Abstrak\n6) Label")
    st.subheader("Data")
-   data = pd.read_csv("DF_PTA_LABEL.csv")
+   data = pd.read_csv("DF_PTA_.csv")
    st.write(data)
 
 with lda:
@@ -29,7 +29,8 @@ with lda:
         # Bobot setiap topik terhadap dokumen
         nama_clm = [f"Topik {i+1}" for i in range(topik)]
         U = pd.DataFrame(lda_top, columns=nama_clm)
-        st.write(U)
+        data_with_lda = pd.concat([U, data], axis=1)
+        st.write(data_with_lda)
 
    all = st.button("Submit")
    if all:
