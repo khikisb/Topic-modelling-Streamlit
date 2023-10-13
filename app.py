@@ -61,7 +61,7 @@ with Model:
     # Pelatihan model Naive Bayes dengan data pelatihan
     metode2.fit(X_train, y_train)
     # Prediksi label kelas pada data pengujian
-    y_pred = model.predict(X_test)
+    y_pred = metode2.predict(X_test)
     # Mengukur akurasi model
     accuracy = accuracy_score(y_test, y_pred)
 
