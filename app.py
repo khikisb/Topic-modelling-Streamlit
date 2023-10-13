@@ -108,55 +108,55 @@ with Implementasi:
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
     user_abstract = st.text_area("Abstrak", "")
 
-    #Remove Puncutuation
-    clean_tag = re.compile('@\S+')
-    clean_url = re.compile('https?:\/\/.*[\r\n]*')
-    clean_hastag = re.compile('#\S+')
-    clean_symbol = re.compile('[^a-zA-Z]')
     def clean_punct(text):
-       text = clean_tag.sub('', str(text))
-       text = clean_url.sub('', text)
-       text = clean_hastag.sub(' ', text)
-       text = clean_symbol.sub(' ', text)
-     return text
-    # Buat kolom tambahan untuk data description yang telah diremovepunctuation
+        # Remove Punctuation
+        clean_tag = re.compile('@\S+')
+        clean_url = re.compile('https?:\/\/.*[\r\n]*')
+        clean_hastag = re.compile('#\S+')
+        clean_symbol = re.compile('[^a-zA-Z]')
+        text = clean_tag.sub('', str(text))
+        text = clean_url.sub('', text)
+        text = clean_hastag.sub(' ', text)
+        text = clean_symbol.sub(' ', text)
+        return text
+
+    # Buat kolom tambahan untuk data description yang telah di remove punctuation
     preprocessing = user_abstract.apply(clean_punct)
-    clean=pd.DataFrame(preprocessing)
-    clean
-    data_clean=[]
+    clean = pd.DataFrame(preprocessing)
+
+    data_clean = []
     for i in range(len(preprocessing)):
-       data_clean.append(preprocessing[i])
-    tokenize=[]
+        data_clean.append(preprocessing[i])
+
+    tokenize = []
     for i in range(len(data_clean)):
-       token=word_tokenize(data_clean[i])
-    tokendata = []
-    for x in token :
-       tokendata.append(x)
-    tokenize.append(tokendata)
-    tokendata
-    stopword=[]
+        token = word_tokenize(data_clean[i])
+        tokendata = []
+        for x in token:
+            tokendata.append(x)
+        tokenize.append(tokendata)
+
+    stopword = []
     for i in range(len(tokenize)):
-       listStopword =  set(stopwords.words('indonesian'))
-    removed=[]
-    for x in (tokenize[i]):
-       if x not in listStopword:
-          removed.append(x)
-    stopword.append(removed)
-    print(removed)
+        listStopword = set(stopwords.words('indonesian'))
+        removed = []
+        for x in tokenize[i]:
+            if x not in listStopword:
+                removed.append(x)
+        stopword.append(removed)
 
-    hasilproses=[]
-    for i in range(len(stopword)):
-       joinkata = ' '.join(stopword[i])
-    hasilproses.append(joinkata)
-
+    hasilproses = []
+    for i in range(len(stopword):
+        joinkata = ' '.join(stopword[i])
+        hasilproses.append(joinkata)
 
     if user_abstract:
         # Fit vocabulary dengan data latih
         count_vectorizer.fit(data['Abstrak'])
 
         # Transform abstrak pengguna dengan count_vectorizer
-        user_tf = count_vectorizer.transform([hasilproses])
-       
+        user_tf = count_vectorizer.transform(hasilproses)
+        
         if lda_model is None:
             lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
             lda_top = lda_model.fit_transform(user_tf)
@@ -167,4 +167,3 @@ with Implementasi:
         st.write(user_topic_distribution)
         y_pred = model2.predict(user_topic_distribution)
         y_pred
-
