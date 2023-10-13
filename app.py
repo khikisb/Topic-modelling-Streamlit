@@ -130,11 +130,9 @@ with Implementasi:
 
     tokenize = []
     for i in range(len(data_clean)):
-        token = word_tokenize(data_clean[i])
-        tokendata = []
-        for x in token:
-            tokendata.append(x)
-        tokenize.append(tokendata)
+       # Tokenisasi berdasarkan spasi
+       token = data_clean[i].split()
+       tokenize.append(token)
 
     stopword = []
     for i in range(len(tokenize)):
