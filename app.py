@@ -102,7 +102,7 @@ with Implementasi:
         text = re.sub(r'[^a-zA-Z\s]', '', text)
        
         # Convert to lowercase
-        text = text lower()
+        text = text.lower()
        
         # Tokenize the text into words (using a simple space-based split)
         words = text.split()
@@ -153,5 +153,3 @@ with Implementasi:
                 st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
-
-
