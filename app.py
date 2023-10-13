@@ -99,6 +99,9 @@ with Implementasi:
     import re
     from sklearn.feature_extraction.text import CountVectorizer
     
+    # Inisialisasi CountVectorizer
+    count_vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='english')
+    
     def preprocess_text(text):
         # Remove special characters and digits
         text = re.sub(r'[^a-zA-Z\s]', '', text)
@@ -141,5 +144,4 @@ with Implementasi:
             st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
-
 
