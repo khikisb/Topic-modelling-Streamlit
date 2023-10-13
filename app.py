@@ -109,7 +109,7 @@ with Implementasi:
         words = text.split()
        
         # Define a list of common English stopwords to remove
-        stopwords = ["a", "an", "the", "in", "on", "and", "is", "at", "to", "it"]
+        stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
        
         # Remove stopwords
         words = [word for word in words if word not in stopwords]
@@ -128,14 +128,21 @@ with Implementasi:
         # Preprocess the user input abstract
         preprocessed_abstract = preprocess_text(user_abstract)
         
-        # Perform LDA on the new abstract
-        lda_top = lda.transform(calculate_term_frequency(preprocessed_abstract).reshape(1, -1))
+        # Calculate term frequency for the preprocessed abstract
+        user_tf = calculate_term_frequency(preprocessed_abstract)
         
-        # Predict the label for the user's abstract using KNN
-        st.write("Metode yang Anda gunakan Adalah KNN")
-        predicted_label = model1.predict(lda_top)
+        if not user_tf:
+            st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
+        else:
+            # Transform the TF data to match the input format of your LDA model
+            lda_top = lda.transform(user_tf.reshape(1, -1))
             
-        if predicted_label:
-            st.write("Hasil Prediksi Label:", predicted_label[0])
+            # Predict the label for the user's abstract using the LDA model
+            st.write("Metode yang Anda gunakan Adalah LDA")
+            predicted_label = lda_model.predict(lda_top)
+            
+            if predicted_label:
+                st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
+
