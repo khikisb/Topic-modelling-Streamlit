@@ -23,19 +23,17 @@ with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
 
    def submit():
-        tf = pd.read_csv("TF_label.csv")
+        tf = pd.read_csv("df_tf.csv")
+        tf
         lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
-        x = tf.drop("Label", axis=1)
-        lda_top = lda.fit_transform(x)
+        lda_top = lda.fit_transform(tf)
         # Bobot setiap topik terhadap dokumen
         nama_clm = [f"Topik {i+1}" for i in range(topik)]
         U = pd.DataFrame(lda_top, columns=nama_clm)
-        U["Label"] = tf["Label"].values
         st.write(U)
 
    all = st.button("Submit")
    if all:
-      st.balloons()
       submit()
 
 with Model:
