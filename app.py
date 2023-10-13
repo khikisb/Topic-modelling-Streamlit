@@ -97,6 +97,8 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
+    data = pd.read_csv("DF_PTA.csv")
+
     import re
 
     # Membuat list custom stop words dalam bahasa Indonesia
