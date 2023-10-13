@@ -99,20 +99,17 @@ with Implementasi:
    def preprocess_text(text):
        preprocessed_text = []
        for doc in text:
-           doc = str(doc).lower()  # Mengonversi elemen dalam array menjadi string dan kemudian mengubahnya menjadi huruf kecil
-           # Menghilangkan tanda baca
-           doc = doc.translate(str.maketrans('', '', string.punctuation))
-   
-           # Stopwords removal
-           doc = ' '.join([word for word in doc.split() if word not in ENGLISH_STOP_WORDS])
-           
+           if isinstance(doc, str) and not pd.isna(doc):
+               doc = doc.lower()  # Mengubah menjadi huruf kecil
+               # Menghilangkan tanda baca
+               doc = doc.translate(str.maketrans('', '', string.punctuation))
+               # Stopwords removal
+               doc = ' '.join([word for word in doc.split() if word not in ENGLISH_STOP_WORDS])
+           else:
+               doc = ""  # Ganti nilai NaN dengan string kosong
            preprocessed_text.append(doc)
-           
        return preprocessed_text
 
-
-
-   
    # Fungsi untuk memprediksi label
    def predict_label(user_input, lda, knn, vectorizer):
        # Preprocess input abstrak
