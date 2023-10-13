@@ -29,7 +29,7 @@ with lda:
         # Bobot setiap topik terhadap dokumen
         nama_clm = [f"Topik {i+1}" for i in range(topik)]
         U = pd.DataFrame(lda_top, columns=nama_clm)
-        data_with_lda = pd.concat([U, data], axis=1)
+        data_with_lda = pd.concat([U, data['Label'], axis=1)
         st.write(data_with_lda)
 
    all = st.button("Submit")
