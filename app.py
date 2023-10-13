@@ -45,7 +45,10 @@ with Model:
     st.write("Jika pada menu LDA tidak menentukan jumlah topiknya maka proses modelling akan di default dengan jumlah topik = 1")
     lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
     lda_top = lda.fit_transform(tf)
-    data_with_lda = pd.concat([tf, data['Label']], axis=1)
+    # Bobot setiap topik terhadap dokumen
+    nama_clm = [f"Topik {i+1}" for i in range(topik)]
+    U = pd.DataFrame(lda_top, columns=nama_clm)
+    data_with_lda = pd.concat([U, data['Label']], axis=1)
    
     df = data_with_lda.dropna(subset=['Label', 'Label'])
 
