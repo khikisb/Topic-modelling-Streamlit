@@ -151,6 +151,4 @@ with Implementasi:
         st.write(user_topic_distribution)
         y_pred = model2.predict(user_topic_distribution)
         y_pred
-        accuracy = accuracy_score(y_test, y_pred)
-        st.write("Akurasi: {:.2f}%".format(accuracy * 100))
 
