@@ -34,11 +34,10 @@ with lda:
       U = pd.DataFrame(lda_top, columns=nama_clm)
       data_with_lda = pd.concat([U, data['Label']], axis=1)
       st.write(data_with_lda)
-      return lda  # Mengembalikan model LDA
 
    all = st.button("Submit")
    if all:
-      lda_model = submit() 
+      submit() 
 
 with Model:
     tf = pd.read_csv("df_tf.csv")
@@ -126,32 +125,29 @@ with Implementasi:
 
     st.subheader("Implementasi")
     st.write("Masukkan Abstrak yang Ingin Dianalisis:")
-
     user_abstract = st.text_area("Abstrak", "")
 
     if user_abstract:
-       # Preprocess the user input abstract
-       preprocessed_abstract = preprocess_text(user_abstract)
-   
-       # Clean the data by removing rows with NaN values in the "Abstrak" column
-       data_cleaned = data.dropna(subset=['Abstrak'])
-   
-       # Fit the count_vectorizer on the cleaned data
-       count_vectorizer.fit(data_cleaned['Abstrak'])
-   
-       # Transform the preprocessed abstract using count_vectorizer
-       user_tf = count_vectorizer.transform([preprocessed_abstract])
-   
-       # Predict the label for the user's abstract using the LDA model
-       st.write("Metode yang Anda gunakan Adalah LDA")
-   
-       # Transform user's TF vector into topic distribution
-       user_topic_distribution = lda_model.transform(user_tf)
-   
-       # Determine the most likely topic
-       predicted_topic = user_topic_distribution.argmax()
-       st.write("Topik yang Paling Sesuai:", predicted_topic)
-    else:
-       st.write("Silakan masukkan abstrak terlebih dahulu.")
+        # Preproses abstrak
+        preprocessed_abstract = preprocess_text(user_abstract)
 
+        if lda_model is not None:
+            # Transform abstrak pengguna dengan count_vectorizer
+            user_tf = count_vectorizer.transform([preprocessed_abstract])
 
+            # Transform abstrak pengguna dengan model LDA
+            user_topic_distribution = lda_model.transform(user_tf)
+
+            st.write("Metode yang Anda gunakan Adalah LDA")
+            st.write("Hasil Distribusi Topik:")
+            st.write(user_topic_distribution)
+
+            if knn_model is not None:
+                # Prediksi label dengan model KNN
+                predicted_label = knn_model.predict(user_topic_distribution)
+
+                st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
+            else:
+                st.write("Latih model KNN terlebih dahulu.")
+        else:
+            st.write("Latih model LDA terlebih dahulu.")
