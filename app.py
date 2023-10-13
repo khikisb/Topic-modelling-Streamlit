@@ -145,11 +145,15 @@ with Implementasi:
         if not user_tf:
             st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
         else:
+            # Convert user_tf to a NumPy array for KNN prediction
+            user_tf_array = np.array(list(user_tf.values()))
+            
             # Predict the label for the user's abstract using KNN
             st.write("Metode yang Anda gunakan Adalah KNN")
-            predicted_label = model1.predict(user_tf)  # No need for additional transformation
+            predicted_label = model1.predict([user_tf_array])
             
             if predicted_label:
                 st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
+
