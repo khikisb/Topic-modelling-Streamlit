@@ -111,6 +111,7 @@ with Implementasi:
        return preprocessed_text
 
 
+
    
    # Fungsi untuk memprediksi label
    def predict_label(user_input, lda, knn, vectorizer):
