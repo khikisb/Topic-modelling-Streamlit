@@ -142,11 +142,7 @@ with Implementasi:
           if x not in custom_stopwords:
              removed.append(x)
        stopword.append(removed)
-
-    hasilproses = []
-    for i in range(len(stopword)):
-        joinkata = ' '.join(stopword[i])
-        hasilproses.append(joinkata)
+    stopword
 
     if user_abstract:
         # Fit vocabulary dengan data latih
