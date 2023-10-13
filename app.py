@@ -42,7 +42,7 @@ with lda:
 with Model:
     tf = pd.read_csv("df_tf.csv")
     st.subheader("Jumlah Topik yang Anda Gunakan : " + str(topik))
-    st.write("Jika pada menu LDA tidak menentukan jumlah topiknya maka proses modelling akan di default dengan jumlah topik = 1")
+    st.write("Jika pada menu LDA tidak menentukan jumlah topiknya maka proses modelling akan di default dengan jumlah topik = 5")
     lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
     lda_top = lda.fit_transform(tf)
     # Bobot setiap topik terhadap dokumen
