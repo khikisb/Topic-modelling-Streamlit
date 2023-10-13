@@ -142,14 +142,13 @@ with Implementasi:
           if x not in custom_stopwords:
              removed.append(x)
        stopword.append(removed)
-    stopword
 
     if user_abstract:
         # Fit vocabulary dengan data latih
         count_vectorizer.fit(data['Abstrak'])
 
         # Transform abstrak pengguna dengan count_vectorizer
-        user_tf = count_vectorizer.transform(hasilproses)
+        user_tf = count_vectorizer.transform(stopword)
         
         if lda_model is None:
             lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
