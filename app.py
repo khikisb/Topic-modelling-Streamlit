@@ -51,7 +51,7 @@ with Model:
     y = df['Label'].values
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    model1 = KNeighborsClassifier(n_neighbors=n_neighbors)
+    model1 = KNeighborsClassifier(5)
     # Pelatihan model KNN dengan data pelatihan
     model1.fit(X_train, y_train)
 
@@ -71,7 +71,6 @@ with Model:
     if submit2:      
         if met1:
             st.write("Metode yang Anda gunakan Adalah KNN")
-            n_neighbors = st.number_input("Masukkan Jumlah Tetangga (neighbors):", min_value=1, max_value=20, value=5)
             # Prediksi label kelas pada data pengujian
             y_pred = model1.predict(X_test)
             # Mengukur akurasi model
