@@ -98,9 +98,8 @@ with Model:
 with Implementasi:
     import re
     from sklearn.feature_extraction.text import CountVectorizer
-    
-    # Inisialisasi CountVectorizer
-    count_vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='english')
+
+    count_vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='indonesian')
     
     def preprocess_text(text):
         # Remove special characters and digits
