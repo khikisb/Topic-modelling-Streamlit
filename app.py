@@ -99,7 +99,7 @@ with Model:
 with Implementasi:
     data = pd.read_csv("DF_PTA.csv")
     count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
-   
+    
     import re
 
     # Membuat list custom stop words dalam bahasa Indonesia
@@ -108,19 +108,19 @@ with Implementasi:
     def preprocess_text(text):
         # Remove special characters and digits
         text = re.sub(r'[^a-zA-Z\s]', '', text)
-       
+        
         # Convert to lowercase
         text = text.lower()
-       
+        
         # Tokenize the text into words (using a simple space-based split)
         words = text.split()
-       
+        
         # Remove custom stop words
         words = [word for word in words if word not in custom_stopwords]
-       
+        
         # Join the words back into a cleaned text
         cleaned_text = ' '.join(words)
-       
+        
         return cleaned_text
 
     st.subheader("Implementasi")
@@ -131,23 +131,27 @@ with Implementasi:
         # Preproses abstrak
         preprocessed_abstract = preprocess_text(user_abstract)
 
-        if lda_model is not None:
-            # Transform abstrak pengguna dengan count_vectorizer
-            user_tf = count_vectorizer.transform([preprocessed_abstract])
+        if lda_model is None:
+            # Jika model LDA belum ada, latih model LDA dengan data Anda
+            tf = pd.read_csv("df_tf.csv")
+            lda_model = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
+            lda_top = lda_model.fit_transform(tf)
+            st.write("Model LDA telah dilatih.")
 
-            # Transform abstrak pengguna dengan model LDA
-            user_topic_distribution = lda_model.transform(user_tf)
+        # Transform abstrak pengguna dengan count_vectorizer
+        user_tf = count_vectorizer.transform([preprocessed_abstract])
 
-            st.write("Metode yang Anda gunakan Adalah LDA")
-            st.write("Hasil Distribusi Topik:")
-            st.write(user_topic_distribution)
+        # Transform abstrak pengguna dengan model LDA
+        user_topic_distribution = lda_model.transform(user_tf)
 
-            if knn_model is not None:
-                # Prediksi label dengan model KNN
-                predicted_label = knn_model.predict(user_topic_distribution)
+        st.write("Metode yang Anda gunakan Adalah LDA")
+        st.write("Hasil Distribusi Topik:")
+        st.write(user_topic_distribution)
 
-                st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
-            else:
-                st.write("Latih model KNN terlebih dahulu.")
+        if knn_model is not None:
+            # Prediksi label dengan model KNN
+            predicted_label = knn_model.predict(user_topic_distribution)
+            st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
         else:
-            st.write("Latih model LDA terlebih dahulu.")
+            st.write("Latih model KNN terlebih dahulu.")
+
