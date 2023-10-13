@@ -57,9 +57,9 @@ with Model:
     # metode2 = GaussianNB()
     # metode2.fit(X_train, y_train)
     # # Inisialisasi model Naive Bayes
-    model2 = MultinomialNB()
+    metode2 = MultinomialNB()
     # Pelatihan model Naive Bayes dengan data pelatihan
-    model2.fit(X_train, y_train)
+    metode2.fit(X_train, y_train)
     # Prediksi label kelas pada data pengujian
     y_pred = model.predict(X_test)
     # Mengukur akurasi model
