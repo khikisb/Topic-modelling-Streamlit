@@ -37,7 +37,6 @@ with lda:
    all = st.button("Submit")
    if all:
       submit()
-      lda_model = lda
 
 with Model:
     tf = pd.read_csv("df_tf.csv")
@@ -99,6 +98,14 @@ with Model:
 with Implementasi:
     data = pd.read_csv("DF_PTA.csv")
     count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
+
+    tf = pd.read_csv("df_tf.csv")
+    lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
+    lda_top = lda.fit_transform(tf)
+    # Bobot setiap topik terhadap dokumen
+    nama_clm = [f"Topik {i+1}" for i in range(topik)]
+    U = pd.DataFrame(lda_top, columns=nama_clm)
+    data_with_lda = pd.concat([U, data['Label']], axis=1)
 
     import re
 
