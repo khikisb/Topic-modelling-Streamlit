@@ -138,6 +138,9 @@ with Implementasi:
             lda_top = lda_model.fit_transform(tf)
             st.write("Model LDA telah dilatih.")
 
+        # Fit vocabulary dengan data latih
+        count_vectorizer.fit(data['Abstrak'])
+
         # Transform abstrak pengguna dengan count_vectorizer
         user_tf = count_vectorizer.transform([preprocessed_abstract])
 
@@ -154,4 +157,3 @@ with Implementasi:
             st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
         else:
             st.write("Latih model KNN terlebih dahulu.")
-
