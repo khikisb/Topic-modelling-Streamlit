@@ -137,10 +137,7 @@ with Implementasi:
 
     stopword = []
     for i in range(len(tokenize)):
-       removed = []
-       for x in tokenize[i]:
-          if x not in custom_stopwords:
-             removed.append(x)
+       removed = [x for x in tokenize[i] if x not in custom_stopwords]
        stopword.append(removed)
     stopword
 
