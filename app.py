@@ -20,6 +20,10 @@ with Data:
    data = pd.read_csv("DF_PTA.csv")
    st.write(data)
 
+   # Inisialisasi count_vectorizer dan fit dengan data Abstrak
+   count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
+   count_vectorizer.fit(data['Abstrak'])
+
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
 
@@ -97,11 +101,7 @@ with Model:
 
 with Implementasi:
     import re
-    from sklearn.feature_extraction.text import CountVectorizer
 
-    # Inisialisasi kembali count_vectorizer
-    count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
-    
     # Membuat list custom stop words dalam bahasa Indonesia
     custom_stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
 
@@ -144,4 +144,3 @@ with Implementasi:
             st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
-
