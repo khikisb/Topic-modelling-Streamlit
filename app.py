@@ -95,12 +95,14 @@ with Model:
         else:
             st.write("Anda Belum Memilih Metode")
 
-
 with Implementasi:
     import re
     from sklearn.feature_extraction.text import CountVectorizer
 
+    # Inisialisasi kembali count_vectorizer
     count_vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='indonesian')
+    # Fitting count_vectorizer ke data pelatihan
+    count_vectorizer.fit(data['Abstrak'])
     
     def preprocess_text(text):
         # Remove special characters and digits
@@ -112,7 +114,7 @@ with Implementasi:
         # Tokenize the text into words (using a simple space-based split)
         words = text.split()
        
-        # Define a list of common English stopwords to remove
+        # Define a list of common Indonesian stopwords to remove
         stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
        
         # Remove stopwords
@@ -132,9 +134,9 @@ with Implementasi:
         # Preprocess the user input abstract
         preprocessed_abstract = preprocess_text(user_abstract)
         
-        # Transform the preprocessed abstract to match the input format of your LDA model
+        # Transform the preprocessed abstract using count_vectorizer
         user_tf = count_vectorizer.transform([preprocessed_abstract])
-        lda_top = lda.transform(user_tf)
+        lda_top = lda_model.transform(user_tf)  # Menggunakan lda_model yang telah difit di "LDA"
         
         # Predict the label for the user's abstract using the LDA model
         st.write("Metode yang Anda gunakan Adalah LDA")
@@ -144,4 +146,3 @@ with Implementasi:
             st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
-
