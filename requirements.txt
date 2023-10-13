@@ -3,4 +3,4 @@ streamlit
 numpy
 joblib
 scikit-learn
-nltk
+nltk==3.5
