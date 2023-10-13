@@ -51,43 +51,36 @@ with Model:
     y = df['Label'].values
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    metode1 = KNeighborsClassifier(n_neighbors=3)
-    metode1.fit(X_train, y_train)
+    model1 = KNeighborsClassifier(n_neighbors=n_neighbors)
+    # Pelatihan model KNN dengan data pelatihan
+    model1.fit(X_train, y_train)
 
-    # metode2 = GaussianNB()
-    # metode2.fit(X_train, y_train)
-    # # Inisialisasi model Naive Bayes
-    model = MultinomialNB()
+    model2 = MultinomialNB()
     # Pelatihan model Naive Bayes dengan data pelatihan
-    model.fit(X_train, y_train)
+    model2.fit(X_train, y_train)
 
     metode3 = tree.DecisionTreeClassifier(criterion="gini")
     metode3.fit(X_train, y_train)
 
     st.write("Pilih metode yang ingin anda gunakan :")
     met1 = st.checkbox("KNN")
-    # if met1 :
-    #     st.write("Hasil Akurasi Data Training Menggunakan KNN sebesar : ", (100 * metode1.score(X_train, y_train)))
-    #     st.write("Hasil Akurasi Data Testing Menggunakan KNN sebesar : ", (100 * (metode1.score(X_test, y_test))))
     met2 = st.checkbox("Naive Bayes")
-    # if met2 :
-    #     st.write("Hasil Akurasi Data Training Menggunakan Naive Bayes sebesar : ", (100 * metode2.score(X_train, y_train)))
-    #     st.write("Hasil Akurasi Data Testing Menggunakan Naive Bayes sebesar : ", (100 * metode2.score(X_test, y_test)))
     met3 = st.checkbox("Decision Tree")
-    # if met3 :
-        # st.write("Hasil Akurasi Data Training Menggunakan Decision Tree sebesar : ", (100 * metode3.score(X_train, y_train)))
-        # st.write("Hasil Akurasi Data Testing Menggunakan Decision Tree sebesar : ", (100 * metode3.score(X_test, y_test)))
     submit2 = st.button("Pilih")
 
     if submit2:      
         if met1:
             st.write("Metode yang Anda gunakan Adalah KNN")
-            st.write("Hasil Akurasi Data Training Menggunakan KNN sebesar : ", (100 * metode1.score(X_train, y_train)))
-            st.write("Hasil Akurasi Data Testing Menggunakan KNN sebesar : ", (100 * metode1.score(X_test, y_test)))
+            n_neighbors = st.number_input("Masukkan Jumlah Tetangga (neighbors):", min_value=1, max_value=20, value=5)
+            # Prediksi label kelas pada data pengujian
+            y_pred = model1.predict(X_test)
+            # Mengukur akurasi model
+            accuracy = accuracy_score(y_test, y_pred)
+            st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         elif met2:
             st.write("Metode yang Anda gunakan Adalah Naive Bayes")
             # Prediksi label kelas pada data pengujian
-            y_pred = model.predict(X_test)
+            y_pred = model2.predict(X_test)
             # Mengukur akurasi model
             accuracy = accuracy_score(y_test, y_pred)
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
