@@ -108,7 +108,6 @@ with Implementasi:
         # Tokenize the text into words (using a simple space-based split)
         words = text.split()
        
-        # Define a list of common English stopwords to remove
         stopwords = ["yang", "dan", "di", "dengan", "untuk", "pada", "adalah", "ini", "itu", "atau", "juga"]
        
         # Remove stopwords
@@ -128,21 +127,16 @@ with Implementasi:
         # Preprocess the user input abstract
         preprocessed_abstract = preprocess_text(user_abstract)
         
-        # Calculate term frequency for the preprocessed abstract
-        user_tf = calculate_term_frequency(preprocessed_abstract)
+        # Transform the preprocessed abstract to match the input format of your LDA model
+        lda_top = lda.transform([preprocessed_abstract])
         
-        if not user_tf:
-            st.write("Tidak ada kata kunci yang dihasilkan dari abstrak.")
-        else:
-            # Transform the TF data to match the input format of your LDA model
-            lda_top = lda.transform(user_tf.reshape(1, -1))
-            
-            # Predict the label for the user's abstract using the LDA model
-            st.write("Metode yang Anda gunakan Adalah LDA")
-            predicted_label = lda_model.predict(lda_top)
-            
-            if predicted_label:
-                st.write("Hasil Prediksi Label:", predicted_label[0])
+        # Predict the label for the user's abstract using the LDA model
+        st.write("Metode yang Anda gunakan Adalah LDA")
+        predicted_label = lda_model.predict(lda_top)
+        
+        if predicted_label:
+            st.write("Hasil Prediksi Label:", predicted_label[0])
     else:
         st.write("Silakan masukkan abstrak terlebih dahulu.")
+
 
