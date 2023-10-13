@@ -145,17 +145,12 @@ with Implementasi:
 
         # Transform abstrak pengguna dengan model LDA
         user_topic_distribution = lda_model.transform(user_tf)
-
-        st.write("Metode yang Anda gunakan adalah LDA")
-        st.write("Hasil Distribusi Topik:")
         st.write(user_topic_distribution)
+        # Prediksi label pengguna menggunakan model KNN
+        user_label = model1.predict(user_topic_distribution) 
+        # Tambahkan kolom "Prediksi_Label" ke DataFrame df dengan prediksi label pengguna
+        df['Prediksi_Label'] = user_label
 
-        if knn_model is not None:
-            # Prediksi label dengan model KNN
-            predicted_label = knn_model.predict(user_topic_distribution)
-            st.write("Hasil Prediksi Label dengan KNN:", predicted_label[0])
-        else:
-            st.write("Latih model KNN terlebih dahulu.")
-    else:
-        st.write("Masukkan teks Abstrak terlebih dahulu.")
+
+
 
