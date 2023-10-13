@@ -119,8 +119,7 @@ with Implementasi:
        # Memprediksi label untuk input pengguna
        predicted_label = knn.predict(user_input_vector)
        return predicted_label[0]
-   
-   
+
    tf = pd.read_csv("df_tf.csv")
    lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
    lda_top = lda.fit_transform(tf)
@@ -132,9 +131,13 @@ with Implementasi:
    y = df['Label'].values
    labels = y
    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+   # Contoh penggunaan:
    # Inisialisasi model KNN
    knn = KNeighborsClassifier(n_neighbors=5)
-   knn.fit(X_train, y_train)
+   knn.fit(X[1:], labels)
+   user_input = "Abstrak baru yang ingin diprediksi"
+   predicted_label = predict_label(user_input, lda, knn, vectorizer)
+   print(f"Label yang diprediksi: {predicted_label}")
    
    # Contoh penggunaan:
    user_input = "Abstrak baru yang ingin diprediksi"
