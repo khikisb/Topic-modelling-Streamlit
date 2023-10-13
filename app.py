@@ -23,22 +23,21 @@ with Data:
 
 with lda:
    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1)
-
    def submit():
-        tf = pd.read_csv("df_tf.csv")
-        lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
-        lda_top = lda.fit_transform(tf)
-        # Bobot setiap topik terhadap dokumen
-        nama_clm = [f"Topik {i+1}" for i in range(topik)]
-        U = pd.DataFrame(lda_top, columns=nama_clm)
-        data_with_lda = pd.concat([U, data['Label']], axis=1)
-        st.write(data_with_lda)
-       return lda  # Mengembalikan model LDA
+      tf = pd.read_csv("df_tf.csv")
+      lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
+      lda_top = lda.fit_transform(tf)
+      # Bobot setiap topik terhadap dokumen
+      nama_clm = [f"Topik {i+1}" for i in range(topik)]
+      U = pd.DataFrame(lda_top, columns=nama_clm)
+      data_with_lda = pd.concat([U, data['Label']], axis=1)
+      st.write(data_with_lda)
+      return lda  # Mengembalikan model LDA
 
    all = st.button("Submit")
    lda_model = None  # Inisialisasi lda_model
    if all:
-      lda_model = submit() 
+      lda_model = submit()  # Menginisialisasi lda_model dengan model yang dikembalikan oleh submit()
 
 with Model:
     tf = pd.read_csv("df_tf.csv")
