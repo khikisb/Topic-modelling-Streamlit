@@ -93,5 +93,28 @@ with Model:
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
         else:
             st.write("Anda Belum Memilih Metode")
-    # else:
-    #     st.write("Anda Belum Menentukan Jumlah Topik di Menu LDA")
+
+    st.write("Masukkan Abstrak yang Ingin Diprediksi:")
+    user_input = st.text_input("Abstrak:")
+
+    if user_input:
+        # Preprocessing input abstrak (misalnya, tokenisasi dan vektorisasi)
+        user_input_vector = # Lakukan preprocessing dan vektorisasi input abstrak
+
+        if met1:
+            st.write("Metode yang Anda gunakan Adalah KNN")
+            # Prediksi abstrak menggunakan model KNN
+            user_abstract_prediction = model1.predict([user_input_vector])
+            st.write("Prediksi Abstrak: ", user_abstract_prediction[0])
+        elif met2:
+            st.write("Metode yang Anda gunakan Adalah Naive Bayes")
+            # Prediksi abstrak menggunakan model Naive Bayes
+            user_abstract_prediction = model2.predict([user_input_vector])
+            st.write("Prediksi Abstrak: ", user_abstract_prediction[0])
+        elif met3:
+            st.write("Metode yang Anda gunakan Adalah Decision Tree")
+            # Prediksi abstrak menggunakan model Decision Tree
+            user_abstract_prediction = model3.predict([user_input_vector])
+            st.write("Prediksi Abstrak: ", user_abstract_prediction[0])
+        else:
+            st.write("Anda Belum Memilih Metode")
