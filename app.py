@@ -100,8 +100,8 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-    data = pd.read_csv("DF_PTA.csv")
-    data['Abstrak'].fillna("", inplace=True)
+    data = pd.read_csv("https://gist.githubusercontent.com/khikisb/db966a30f5341a31d8429885ad522e82/raw/90e5bdecaa24a3bf1a0a4f45b70d51274e7a337f/data_label_news.csv")
+    data['Content'].fillna("", inplace=True)
     count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
     
     import re
@@ -128,7 +128,7 @@ with Implementasi:
         return cleaned_text
 
     st.subheader("Implementasi")
-    st.write("Masukkan Abstrak yang Ingin Dianalisis:")
+    st.write("Masukkan Berita yang Ingin Dianalisis:")
     user_abstract = st.text_area("Abstrak", "")
 
     if user_abstract:
