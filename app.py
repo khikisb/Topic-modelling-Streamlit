@@ -69,10 +69,15 @@ with Model:
     # Pelatihan model Decision Tree dengan data pelatihan
     model3.fit(X_train, y_train)
 
+    model4 = KNeighborsClassifier(n_neighbors=5)  # Inisialisasi model KNN dengan 5 tetangga terdekat
+    # Pelatihan model KNN dengan data pelatihan
+    model4.fit(X_train, y_train)
+
     st.write("Pilih metode yang ingin anda gunakan :")
     met1 = st.checkbox("Random Forest")
     met2 = st.checkbox("Naive Bayes")
     met3 = st.checkbox("Decision Tree")
+    met4 = st.checkbox("K-Nearest Neihbors")
     submit2 = st.button("Pilih")
 
     if submit2:      
@@ -94,6 +99,13 @@ with Model:
             st.write("Metode yang Anda gunakan Adalah Decision Tree")
             # Prediksi label kelas pada data pengujian
             y_pred = model3.predict(X_test)
+            # Mengukur akurasi model
+            accuracy = accuracy_score(y_test, y_pred)
+            st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+         elif met4:  # Menambah kondisi untuk KNN
+            st.write("Metode yang Anda gunakan Adalah K-Nearest Neighbors (KNN)")
+            # Prediksi label kelas pada data pengujian
+            y_pred = model4.predict(X_test)
             # Mengukur akurasi model
             accuracy = accuracy_score(y_test, y_pred)
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
