@@ -76,7 +76,7 @@ with Model:
     st.write("Pilih metode yang ingin anda gunakan :")
     met1 = st.checkbox("Random Forest")
     met2 = st.checkbox("Naive Bayes")
-    met3 = st.checkbox("Decision Tree")
+    met3 = st.checkbox("Decision Treme")
     met4 = st.checkbox("K-Nearest Neihbors")
     submit2 = st.button("Pilih")
 
