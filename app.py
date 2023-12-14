@@ -26,7 +26,7 @@ with lda:
    lda_model = None  # Inisialisasi lda_model
 
    def submit():
-      tf = pd.read_csv("https://drive.google.com/file/d/1HqB7x7SkchgcRU-Z_v_BkAfS35HVlAHP/view?usp=sharing")
+      tf = pd.read_csv("df_tf.csv")
       tf.dropna()
       lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
       lda_top = lda.fit_transform(tf)
@@ -102,7 +102,7 @@ with Model:
             st.write("Anda Belum Memilih Metode")
 
 with Implementasi:
-    data = pd.read_csv("https://gist.githubusercontent.com/khikisb/db966a30f5341a31d8429885ad522e82/raw/90e5bdecaa24a3bf1a0a4f45b70d51274e7a337f/data_label_news.csv")
+    data = pd.read_csv("df_tf.csv")
     data['Content'].fillna("", inplace=True)
     count_vectorizer = CountVectorizer(max_df=0.95, min_df=2)
     
