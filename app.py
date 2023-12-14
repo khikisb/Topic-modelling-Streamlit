@@ -18,7 +18,7 @@ with Data:
    st.write("Dimana Fitur yang ada di dalam data tersebut diantaranya:")
    st.text("1) Date\n2) Title\n3) Content\n4) Label")
    st.subheader("Data")
-   data = pd.read_csv("https://gist.githubusercontent.com/khikisb/db966a30f5341a31d8429885ad522e82/raw/90e5bdecaa24a3bf1a0a4f45b70d51274e7a337f/data_label_news.csv")
+   data = pd.read_csv("data_label.csv")
    st.write(data)
 
 with lda:
