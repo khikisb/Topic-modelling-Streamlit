@@ -76,7 +76,7 @@ with Model:
     st.write("Pilih metode yang ingin anda gunakan :")
     met1 = st.checkbox("Random Forest")
     met2 = st.checkbox("Naive Bayes")
-    met3 = st.checkbox("Decision Treme")
+    met3 = st.checkbox("Decision Tree")
     met4 = st.checkbox("K-Nearest Neihbors")
     submit2 = st.button("Pilih")
 
@@ -102,7 +102,7 @@ with Model:
             # Mengukur akurasi model
             accuracy = accuracy_score(y_test, y_pred)
             st.write("Akurasi: {:.2f}%".format(accuracy * 100))
-         elif met4:  # Menambah kondisi untuk KNN
+        elif met4:  # Menambah kondisi untuk KNN
             st.write("Metode yang Anda gunakan Adalah K-Nearest Neighbors (KNN)")
             # Prediksi label kelas pada data pengujian
             y_pred = model4.predict(X_test)
