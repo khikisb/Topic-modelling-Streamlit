@@ -77,7 +77,7 @@ with Model:
     met1 = st.checkbox("Random Forest")
     met2 = st.checkbox("Naive Bayes")
     met3 = st.checkbox("Decision Tree")
-    met4 = st.checkbox("K-Nearest Neihbors")
+    met4 = st.checkbox("K-Nearest Neighbors (KNN)")
     submit2 = st.button("Pilih")
 
     if submit2:      
