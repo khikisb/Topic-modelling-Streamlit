@@ -27,6 +27,7 @@ with lda:
 
    def submit():
       tf = pd.read_csv("https://drive.google.com/file/d/1HqB7x7SkchgcRU-Z_v_BkAfS35HVlAHP/view?usp=sharing")
+      tf.dropna()
       lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
       lda_top = lda.fit_transform(tf)
       # Bobot setiap topik terhadap dokumen
