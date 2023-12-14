@@ -8,43 +8,37 @@ from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.feature_extraction.text import CountVectorizer
-import requests
-from io import StringIO
 
-Data, lda, Model, Implementasi = st.columns(4)
+Data, lda, Model, Implementasi = st.tabs(['Data', 'LDA', 'Modelling', 'Implementasi'])
 
 with Data:
-    st.title("UAS Pencarian & Penambangan Web A")
-    st.text("Okhi Sahrul Barkah - 210411100112")
-    st.subheader("Deskripsi Data")
-    st.write("Dimana Fitur yang ada di dalam data tersebut diantaranya:")
-    st.text("1) Date\n2) Title\n3) Content\n4) Label")
-    data_url = "https://gist.githubusercontent.com/khikisb/db966a30f5341a31d8429885ad522e82/raw/90e5bdecaa24a3bf1a0a4f45b70d51274e7a337f/data_label_news.csv"
-    data = pd.read_csv(data_url)
-    st.write(data)
+   st.title("UAS Pencarian & Penambangan Web A")
+   st.text("Okhi Sahrul Barkah - 210411100112")
+   st.subheader("Deskripsi Data")
+   st.write("Dimana Fitur yang ada di dalam data tersebut diantaranya:")
+   st.text("1) Date\n2) Title\n3) Content\n4) Label")
+   st.subheader("Data")
+   data = pd.read_csv("https://gist.githubusercontent.com/khikisb/db966a30f5341a31d8429885ad522e82/raw/90e5bdecaa24a3bf1a0a4f45b70d51274e7a337f/data_label_news.csv")
+   st.write(data)
 
 with lda:
-    topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1, value=5)
-    lda_model = None  # Inisialisasi lda_model
+   topik = st.number_input("Masukkan Jumlah Topik yang Diinginkan", 1, step=1, value=5)
+   lda_model = None  # Inisialisasi lda_model
 
-    def submit():
-        tf_url = "https://drive.google.com/uc?id=1HqB7x7SkchgcRU-Z_v_BkAfS35HVlAHP&export=download"
-        response = requests.get(tf_url)
-        tf = pd.read_csv(StringIO(response.text))
-        tf.dropna(inplace=True)
-        lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
-        lda_top = lda.fit_transform(tf)
-        nama_clm = [f"Topik {i+1}" for i in range(topik)]
-        U = pd.DataFrame(lda_top, columns=nama_clm)
-        data_with_lda = pd.concat([U, data['Label']], axis=1)
-        st.write(data_with_lda)
+   def submit():
+      tf = pd.read_csv("https://drive.google.com/file/d/1HqB7x7SkchgcRU-Z_v_BkAfS35HVlAHP/view?usp=sharing")
+      tf.dropna()
+      lda = LatentDirichletAllocation(n_components=topik, doc_topic_prior=0.2, topic_word_prior=0.1, random_state=42, max_iter=1)
+      lda_top = lda.fit_transform(tf)
+      # Bobot setiap topik terhadap dokumen
+      nama_clm = [f"Topik {i+1}" for i in range(topik)]
+      U = pd.DataFrame(lda_top, columns=nama_clm)
+      data_with_lda = pd.concat([U, data['Label']], axis=1)
+      st.write(data_with_lda)
 
-    all = st.button("Submit")
-    if all:
-        try:
-            submit()
-        except Exception as e:
-            st.error(f"Terjadi kesalahan: {e}")
+   all = st.button("Submit")
+   if all:
+      submit() 
 
 with Model:
     tf = pd.read_csv("df_tf.csv")
@@ -158,4 +152,3 @@ with Implementasi:
         st.write(user_topic_distribution)
         y_pred = model2.predict(user_topic_distribution)
         y_pred
-
